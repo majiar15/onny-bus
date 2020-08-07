@@ -20,7 +20,7 @@ function addcount() {
     contador.innerHTML = number;
 
 
-    if (window.location == 'http://localhost:3000/alertas') {
+    if (window.location == 'https://onny-bus.herokuapp.com/alertas') {
         let container = document.querySelector('#container-alert');
         container.insertAdjacentHTML('afterbegin', addAlert(json, ));
     }
@@ -113,7 +113,7 @@ socket.on('notificacion-robo', (data) => {
     contador.innerHTML = number;
     containerNotificacion.insertAdjacentHTML('afterend', addNotificacionRobo(data));
 
-    if (window.location == 'http://localhost:3000/alertas') {
+    if (window.location == 'https://onny-bus.herokuapp.com/alertas') {
         let containerAlert = document.querySelector('#container-alert');
         containerAlert.insertAdjacentHTML('afterbegin', addAlert(data));
     }
@@ -140,7 +140,7 @@ socket.on('notificacion-retrazo', (data) => {
     contador.innerHTML = number;
 
 
-    if (window.location == 'http://localhost:3000/alertas') {
+    if (window.location == 'https://onny-bus.herokuapp.com/alertas') {
         let container = document.querySelector('#container-alert');
         container.insertAdjacentHTML('afterbegin', addAlert(data));
     }
