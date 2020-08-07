@@ -1,0 +1,207 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  meta(name='description' content='')
+  meta(name='author' content='')
+  title Dashboard Trasmecar
+  link(href='css/styles.css' rel='stylesheet')
+  link(href='https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css' rel='stylesheet' crossorigin='anonymous')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js' crossorigin='anonymous')
+  script(src='https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.js')
+  link(href='https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css' rel='stylesheet')
+  style.
+    body {
+    margin: 0;
+    padding: 0;
+    }
+    #map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    }
+nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
+  a.navbar-brand(href='/') Dashboard
+  button#sidebarToggle.btn.btn-link.btn-sm.order-1.order-lg-0(href='#')
+    i.fas.fa-bars
+  // Navbar Search
+  .d-none.d-md-inline-block.form-inline.ml-auto.mr-0.mr-md-3.my-2.my-md-0
+  // Navbar
+  ul.navbar-nav.ml-auto.ml-md-0
+    // Nav Item - Alerts
+    li.nav-item.dropdown.no-arrow.mx-1
+      a#alertsDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+        i.fas.fa-bell.fa-fw
+        // Counter - Alerts
+        span#counter.badge.badge-danger.badge-counter
+      // Dropdown - Alerts
+      .dropdown-list.dropdown-menu.dropdown-menu-right.shadow.animated--grow-in(aria-labelledby='alertsDropdown')
+        h6.dropdown-header
+          | Alerts Center
+        a#alertPrincipal.dropdown-item.d-flex.align-items-center(href='#')
+          .mr-3
+            .icon-circle.bg-primary
+              i.fas.fa-file-alt.text-white
+          div
+            .small.text-gray-500 December 12, 2019
+            span.font-weight-bold A new monthly report is ready to download!
+        a.dropdown-item.text-center.small.text-gray-500(href='#') Show All Alerts
+    li.nav-item.dropdown
+      a#userDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+        i.fas.fa-user.fa-fw
+      .dropdown-menu.dropdown-menu-right(aria-labelledby='userDropdown')
+        | .0
+        .dropdown-divider
+        a.dropdown-item(href='/logout') Logout
+    // Nav Item - Search Dropdown (Visible Only XS)
+    li.nav-item.dropdown.no-arrow.d-sm-none
+      a#searchDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+        i.fas.fa-search.fa-fw
+      // Dropdown - Messages
+      .dropdown-menu.dropdown-menu-right.p-3.shadow.animated--grow-in(aria-labelledby='searchDropdown')
+        form.form-inline.mr-auto.w-100.navbar-search
+          .input-group
+            input.form-control.bg-light.border-0.small(type='text' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2')
+            .input-group-append
+              button.btn.btn-primary(type='button')
+                i.fas.fa-search.fa-sm
+#layoutSidenav
+  #layoutSidenav_nav
+    nav#sidenavAccordion.sb-sidenav.accordion.sb-sidenav-dark
+      .sb-sidenav-menu
+        .nav
+          .sb-sidenav-menu-heading Acciones
+          a.nav-link(href='/registro/rutas')
+            .sb-nav-link-icon
+              i.fas.fa-route(style=' color:#3b91ec; font-size: 20px;')
+            |                             asignar rutas
+          a.nav-link(href='/registro/conductores' style='font-size: 15px;')
+            .sb-nav-link-icon
+              i.fas.fa-user-plus(style='color: #3b91ec; font-size: 20px;')
+            |                             registro de conductores
+          a.nav-link(href='/registro/buses' style='font-size: 15px;')
+            .sb-nav-link-icon
+              i.fas.fa-bus(style='color: #3b91ec; font-size: 20px;')
+            |                             registro de buses
+          a.nav-link(href='/registro/rutas' style='font-size: 15px;')
+            .sb-nav-link-icon
+              i.fas.fa-road(style='color: #3b91ec; font-size: 20px;')
+            |                             registro de rutas
+          a.nav-link(href='/alertas')
+            .sb-nav-link-icon
+              i.fas.fa-exclamation-triangle(style='color: #3b91ec; font-size: 20px;')
+            |                             alertas
+      .sb-sidenav-footer
+        .small conectado como:
+        |                     Martin jimenez
+  #layoutSidenav_content
+    main
+      .container-fluid
+        h1.mt-4 Dashboard
+        // quiero cargar las cosas aqui
+        #map
+        script.
+          mapboxgl.accessToken = 'pk.eyJ1IjoibWFqaWFyIiwiYSI6ImNrYWZybXh5ZTAxeDYyeHB4eWIyZWFlZTQifQ.tpO4S2b6RQvsgRCB08joCQ';
+          var map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/mapbox/streets-v11',
+          center: [-74.796387, 10.910769],
+          zoom: 13
+          });
+          var marker = new mapboxgl.Marker()
+          .setLngLat([-74.781685, 10.936199])
+          .addTo(map);
+          marker = new mapboxgl.Marker()
+          .setLngLat([-74.787467, 10.927491])
+          .addTo(map);
+          marker = new mapboxgl.Marker()
+          .setLngLat([-74.799795, 10.924823])
+          .addTo(map);
+          marker = new mapboxgl.Marker()
+          .setLngLat([-74.796387, 10.910769])
+          .addTo(map);
+          marker = new mapboxgl.Marker()
+          .setLngLat([-74.784827, 10.946970])
+          .addTo(map);
+          marker = new mapboxgl.Marker()
+          .setLngLat([-74.795706, 10.946159])
+          .addTo(map);
+          map.on('load', function() {
+          map.addSource('route', {
+          'type': 'geojson',
+          'data': {
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+          'type': 'LineString',
+          'coordinates': [
+          [-74.796387, 10.910769],
+          [-74.799189, 10.911188],
+          [-74.799215, 10.936849],
+          [-74.799377, 10.940628],
+          [-74.799632, 10.946109],
+          [-74.795706, 10.946159],
+          [-74.794343, 10.945843],
+          [-74.784827, 10.946970],
+          [-74.781685, 10.936199],
+          [-74.781106, 10.933502],
+          [-74.782630, 10.932044],
+          [-74.782989, 10.931957],
+          [-74.783351, 10.932060],
+          [-74.783662, 10.931962],
+          [-74.783853, 10.931657],
+          [-74.783781, 10.931244],
+          [-74.783831, 10.930879],
+          [-74.787467, 10.927491],
+          [-74.790035, 10.925623],
+          [-74.792821, 10.924373],
+          [-74.799623, 10.923562],
+          [-74.800104, 10.924009],
+          [-74.800146, 10.924363],
+          [-74.800047, 10.924621],
+          [-74.799795, 10.924823],
+          [-74.799283, 10.924604],
+          [-74.799251, 10.917064],
+          [-74.793288, 10.917141],
+          [-74.792978, 10.916319],
+          [-74.792527, 10.915834],
+          [-74.792061, 10.912329],
+          [-74.792016, 10.910217],
+          [-74.799163, 10.911193],
+          ]
+          }
+          }
+          });
+          map.addLayer({
+          'id': 'route',
+          'type': 'line',
+          'source': 'route',
+          'layout': {
+          'line-join': 'round',
+          'line-cap': 'round'
+          },
+          'paint': {
+          'line-color': '#888',
+          'line-width': 8
+          }
+          });
+          });
+        audio#audio
+          source(type='audio/mp3' src='./assets/mp3/alert.mp3')
+        // Button trigger modal
+        button#buttonexampleModalCenter.btn.btn-primary.d-none(type='button' data-toggle='modal' data-target='#exampleModalCenter')
+    footer.py-4.bg-light.mt-auto
+      .container-fluid
+        .d-flex.align-items-center.justify-content-between.small
+          .text-muted Copyright &copy;onny bus 2020
+          div
+            a(href='#') politicas de privacidad
+            |  &middot;
+            a(href='#') terminos &amp; condiciones
+script(src='https://code.jquery.com/jquery-3.4.1.min.js' crossorigin='anonymous')
+script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js' crossorigin='anonymous')
+
+script(src="../socket.io/socket.io.js")
+script(src="/js/notificaciones.js")

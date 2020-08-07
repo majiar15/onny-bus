@@ -1,0 +1,21 @@
+{
+    "name": "api-bus",
+    "version": "1.0.0",
+    "description": "backend para proyecto ingeneria del sfotware onny bus",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "devstart": "nodemon app.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "pug": "^3.0.0",
+        "socket.io": "^2.3.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.4"
+    }
+}

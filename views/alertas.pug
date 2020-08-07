@@ -1,0 +1,24 @@
+extends ./layouts/dashboard.pug
+block main
+  #layoutSidenav_content
+    main
+      .container-fluid
+        // quiero cargar las cosas aqui
+        h1.mt-4 Alertas
+        #container-alert.row
+        audio#audio
+          source(type='audio/mp3' src='./assets/mp3/alert.mp3')
+        // Button trigger modal
+        button#buttonexampleModalCenter.btn.btn-primary.d-none(type='button' data-toggle='modal' data-target='#exampleModalCenter')
+    footer.py-4.bg-light.mt-auto
+      .container-fluid
+        .d-flex.align-items-center.justify-content-between.small
+          .text-muted Copyright &copy;onny bus 2020
+          div
+            a(href='#') politicas de privacidad
+            |  &middot;
+            a(href='#') terminos &amp; condiciones
+  script(src='https://code.jquery.com/jquery-3.4.1.min.js' crossorigin='anonymous')
+  script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js' crossorigin='anonymous')
+  script(src='./socket.io/socket.io.js')
+

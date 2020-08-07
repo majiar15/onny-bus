@@ -1,0 +1,52 @@
+extends ./layouts/dashboard.pug
+block main
+  #layoutSidenav_content
+    main
+      .container-fluid
+        // quiero cargar las cosas aqui
+        h1.mt-4 Registro Conductores
+        form(action='')
+          .form-group
+            .row
+              .col-md-6.col-lg-7
+                label(for='nombre') Nombre
+                input#nombre.form-control(type='text')
+          .form-group
+            .row
+              .col-md-6.col-lg-7
+                label(for='apellido') Apellidos
+                input#apellido.form-control(type='text')
+          .form-group
+            .row
+              .col-md-6.col-lg-7
+                label(for='email') Email
+                input#email.form-control(type='email')
+          .form-group
+            .row
+              .col-md-6.col-lg-7
+                label(for='password') Contrase&ntilde;a
+                input#password.form-control(type='password')
+          .form-group
+            .row
+              .col-md-6.col-lg-7
+                label(for='confirmar_pass') Confirmar contrase&ntilde;a
+                input#confirmar_pass.form-control(type='password')
+          input.btn.btn-primary(type='submit' value='Enviar')
+        audio#audio
+          source(type='audio/mp3' src='../../assets/mp3/alert.mp3')
+        // Modal
+        // Button trigger modal
+        button#buttonexampleModalCenter.btn.btn-primary.d-none(type='button' data-toggle='modal' data-target='#exampleModalCenter')
+    footer.py-4.bg-light.mt-auto
+      .container-fluid
+        .d-flex.align-items-center.justify-content-between.small
+          .text-muted Copyright &copy;onny bus 2020
+          div
+            a(href='#') politicas de privacidad
+            |  &middot;
+            a(href='#') terminos &amp; condiciones
+    script(src='https://code.jquery.com/jquery-3.4.1.min.js' crossorigin='anonymous')
+    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js' crossorigin='anonymous')
+
+    script(src="../socket.io/socket.io.js")
+    script(src='../js/notifications.js')
