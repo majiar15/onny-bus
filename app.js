@@ -8,6 +8,7 @@ const webRouter = require('./router/web');
 const conductorRouter = require('./router/api/conductorApi');
 const SocketIO = require('socket.io');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const mongoDB = process.env.MONGO_URI;
 //configuracion vistas
 app.set('views', path.join(__dirname, 'views'));
@@ -23,9 +24,22 @@ db.on('error', err => {
     console.log("conexion error ", err);
 });
 db.once('open', () => {
-    console.log('conexion exitosa')
+    console.log('conexion exitosa');
 })
 
+// function 
+function vefifyLogin(req, res, next) {
+    req.headers['x-access-token'];
+    jwt.verify(req.headers['x-access-token'], process.env.SECRET_KEY, function(err, decoded) {
+        if (err) {
+            res.json({ status: 'error', message: err.message, data: null });
+        } else {
+            req.body.id = decoded._id;
+            console.log('usuario logueado', decoded._id);
+            next();
+        }
+    });
+}
 //middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -50,7 +64,7 @@ io.on('connect', (socket) => {
 });
 
 
-app.use('/api/notificaciones', notificacionesRouter);
+app.use('/api/notificaciones', vefifyLogin, notificacionesRouter);
 
 
 exports.io = io;

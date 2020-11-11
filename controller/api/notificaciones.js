@@ -4,6 +4,7 @@ exports.notificaciones_robo = function(req, res) {
     let fecha = req.body.fecha;
     let message = `robo ${bus}`;
     let hora = req.body.hora;
+    console.log(req.body.id);
 
     server.io.sockets.emit('notificacion-robo', { "bus": bus, "fecha": fecha, "alert": "robo", "hora": hora });
 

@@ -1,6 +1,6 @@
 const conductorModel = require('../../model/conductor');
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 exports.register = function(req, res) {
     if (req.body.cc && req.body.nombres && req.body.apellidos && req.body.email && req.body.password && req.body.confirmpassword) {
         if (req.body.password === req.body.confirmpassword) {
@@ -37,7 +37,8 @@ exports.login = function(req, res) {
                 // console.log(req.body.password);
                 // console.log();
                 if (bcrypt.compareSync(req.body.password, conductor[0].password)) {
-                    res.status(200).send('login correcto')
+                    const token = jwt.sign({ _id: conductor[0]._id }, process.env.SECRET_KEY, { expiresIn: "8h" });
+                    res.status(200).json({ status: 'login correcto', data: { 'conductor': conductor[0], 'token': token } });
 
                 } else {
                     res.status(200).send('login incorrecto')
