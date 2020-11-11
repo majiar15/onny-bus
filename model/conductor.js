@@ -1,0 +1,23 @@
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const Schema = mongoose.Schema;
+let conductorSchema = new Schema({
+    cc: {
+        type: Number,
+    },
+    nombres: String,
+    apellidos: String,
+    email: String,
+    password: String,
+    latitud: String,
+    longitud: String
+});
+conductorSchema.pre('save', function(next) {
+    if (this.isModified("password")) {
+        this.password = bcrypt.hashSync(this.password, 10);
+    }
+    next();
+});
+
+
+module.exports = mongoose.model('conductor', conductorSchema);
