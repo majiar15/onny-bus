@@ -16,6 +16,8 @@ app.set('view engine', 'pug');
 
 //configuracion de puerto
 app.set('port', process.env.PORT || 3000);
+//secrest key jwt
+app.set('secretKey', 'jwt_secret.15asASD');
 // configuracion de base de datos
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = global.Promise;
@@ -29,7 +31,6 @@ db.once('open', () => {
 
 // function 
 function vefifyLogin(req, res, next) {
-    req.headers['x-access-token'];
     jwt.verify(req.headers['x-access-token'], process.env.SECRET_KEY, function(err, decoded) {
         if (err) {
             res.json({ status: 'error', message: err.message, data: null });
@@ -46,10 +47,13 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-//rutas
 
+//rutas
 app.use('/', webRouter);
 app.use('/conductor', conductorRouter)
+app.use('/api/notificaciones', vefifyLogin, notificacionesRouter);
+
+//levartar server
 const server = app.listen(app.get('port'), function() {
     console.log('server corriendo');
 });
@@ -58,13 +62,5 @@ const server = app.listen(app.get('port'), function() {
 
 
 let io = SocketIO(server);
-io.on('connect', (socket) => {
-    console.log('hello2 ', socket.id);
-
-});
-
-
-app.use('/api/notificaciones', vefifyLogin, notificacionesRouter);
-
 
 exports.io = io;

@@ -9,73 +9,100 @@ head
   link(href='/css/styles.css' rel='stylesheet')
   link(href='https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css' rel='stylesheet' crossorigin='anonymous')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js' crossorigin='anonymous')
-nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
-  a.navbar-brand(href='/') Dashboard
-  button#sidebarToggle.btn.btn-link.btn-sm.order-1.order-lg-0(href='#')
-    i.fas.fa-bars
-  // Navbar Search
-  .d-none.d-md-inline-block.form-inline.ml-auto.mr-0.mr-md-3.my-2.my-md-0
-  // Navbar
-  ul.navbar-nav.ml-auto.ml-md-0
-    // Nav Item - Alerts
-    li.nav-item.dropdown.no-arrow.mx-1
-      a#alertsDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-        i.fas.fa-bell.fa-fw
-        // Counter - Alerts
-        span#counter.badge.badge-danger.badge-counter
-      // Dropdown - Alerts
-      .dropdown-list.dropdown-menu.dropdown-menu-right.shadow.animated--grow-in(aria-labelledby='alertsDropdown')
-        h6#alertPrincipal.dropdown-header
-          | Notificaciones Alertas
-        a.dropdown-item.text-center.small.text-gray-500(href='/alertas') Mostrar mas alertas
-    li.nav-item.dropdown
-      a#userDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-        i.fas.fa-user.fa-fw
-      .dropdown-menu.dropdown-menu-right(aria-labelledby='userDropdown')
-        a.dropdown-item(href='#') configuraciones
-        .dropdown-divider
-        a.dropdown-item(href='/logout') Logout
-    // Nav Item - Search Dropdown (Visible Only XS)
-    li.nav-item.dropdown.no-arrow.d-sm-none
-      a#searchDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-        i.fas.fa-search.fa-fw
-      // Dropdown - Messages
-      .dropdown-menu.dropdown-menu-right.p-3.shadow.animated--grow-in(aria-labelledby='searchDropdown')
-        form.form-inline.mr-auto.w-100.navbar-search
-          .input-group
-            input.form-control.bg-light.border-0.small(type='text' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2')
-            .input-group-append
-              button.btn.btn-primary(type='button')
-                i.fas.fa-search.fa-sm
-#layoutSidenav
-  #layoutSidenav_nav
-    nav#sidenavAccordion.sb-sidenav.accordion.sb-sidenav-dark
-      .sb-sidenav-menu
-        .nav
-          .sb-sidenav-menu-heading Acciones
-          a.nav-link(href='/registro/rutas')
-            .sb-nav-link-icon
-              i.fas.fa-route(style=' color:#3b91ec; font-size: 20px;')
-            |                             asignar rutas
-          a.nav-link(href='/registro/conductores' style='font-size: 15px;')
-            .sb-nav-link-icon
-              i.fas.fa-user-plus(style='color: #3b91ec; font-size: 20px;')
-            |                             registro de conductores
-          a.nav-link(href='/registro/buses' style='font-size: 15px;')
-            .sb-nav-link-icon
-              i.fas.fa-bus(style='color: #3b91ec; font-size: 20px;')
-            |                             registro de buses
-          a.nav-link(href='/registro/rutas' style='font-size: 15px;')
-            .sb-nav-link-icon
-              i.fas.fa-road(style='color: #3b91ec; font-size: 20px;')
-            |                             registro de rutas
-          a.nav-link(href='/alertas')
-            .sb-nav-link-icon
-              i.fas.fa-exclamation-triangle(style='color: #3b91ec; font-size: 20px;')
-            |                             alertas
-      .sb-sidenav-footer
-        .small conectado como:
-        |                     Martin jimenez
+  block headBlock
+body.sb-nav-fixed
+  nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
+    a.navbar-brand(href='/') Dashboard
+    button#sidebarToggle.btn.btn-link.btn-sm.order-1.order-lg-0(href='#')
+      i.fas.fa-bars
 
-  block main
-script(src="/js/notificaciones.js")
+    // Navbar Search
+    .d-none.d-md-inline-block.form-inline.ml-auto.mr-0.mr-md-3.my-2.my-md-0
+    // Navbar
+    ul.navbar-nav.ml-auto.ml-md-0
+      // Nav Item - Alerts
+      li.nav-item.dropdown.no-arrow.mx-1
+        a#alertsDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+          i.fas.fa-bell.fa-fw
+          // Counter - Alerts
+          span#counter.badge.badge-danger.badge-counter
+        // Dropdown - Alerts
+        .dropdown-list.dropdown-menu.dropdown-menu-right.shadow.animated--grow-in(aria-labelledby='alertsDropdown')
+          h6#alertPrincipal.dropdown-header
+            | Notificaciones Alertas
+          a.dropdown-item.text-center.small.text-gray-500(href='/alertas') Mostrar mas alertas
+      li.nav-item.dropdown
+        a#userDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+          i.fas.fa-user.fa-fw
+        .dropdown-menu.dropdown-menu-right(aria-labelledby='userDropdown')
+          a.dropdown-item(href='#') configuraciones
+          .dropdown-divider
+          a.dropdown-item(href='/logout') Logout
+      // Nav Item - Search Dropdown (Visible Only XS)
+      li.nav-item.dropdown.no-arrow.d-sm-none
+        a#searchDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+          i.fas.fa-search.fa-fw
+        // Dropdown - Messages
+        .dropdown-menu.dropdown-menu-right.p-3.shadow.animated--grow-in(aria-labelledby='searchDropdown')
+          form.form-inline.mr-auto.w-100.navbar-search
+            .input-group
+              input.form-control.bg-light.border-0.small(type='text' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2')
+              .input-group-append
+                button.btn.btn-primary(type='button')
+                  i.fas.fa-search.fa-sm
+  #layoutSidenav
+    #layoutSidenav_nav
+      nav#sidenavAccordion.sb-sidenav.accordion.sb-sidenav-dark
+        .sb-sidenav-menu
+          .nav
+            .sb-sidenav-menu-heading Acciones
+            // rutas
+            a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#rutasNav' aria-expanded='false' aria-controls='rutasNav')
+              .sb-nav-link-icon
+                i.fas.fa-route(style=' color:#3b91ec; font-size: 20px;')
+              |                             Rutas
+              .sb-sidenav-collapse-arrow
+                i.fas.fa-angle-down(style=' color:#3b91ec; font-size: 20px;')
+            #rutasNav.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordion')
+              nav.sb-sidenav-menu-nested.nav
+                a.nav-link(href='/asignar/rutas') Asignar rutas
+                a.nav-link(href='#') Ver rutas
+                a.nav-link(href='#') Registrar rutas
+            // conductores
+            a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#conductoresNav' aria-expanded='false' aria-controls='conductoresNav')
+              .sb-nav-link-icon
+                i.fas.fa-user-plus(style='color: #3b91ec; font-size: 20px;')
+              |                             Conductores
+              .sb-sidenav-collapse-arrow
+                i.fas.fa-angle-down(style=' color:#3b91ec; font-size: 20px;')
+            #conductoresNav.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordion')
+              nav.sb-sidenav-menu-nested.nav
+                a.nav-link(href='/conductores') Ver conductor
+                a.nav-link(href='/registro/conductores') Registrar conductor
+                // buses
+            a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#busesNav' aria-expanded='false' aria-controls='busesNav')
+              .sb-nav-link-icon
+                i.fas.fa-bus(style='color: #3b91ec; font-size: 20px;')
+              |                             Buses
+              .sb-sidenav-collapse-arrow
+                i.fas.fa-angle-down(style=' color:#3b91ec; font-size: 20px;')
+            #busesNav.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordion')
+              nav.sb-sidenav-menu-nested.nav
+                a.nav-link(href='#') Ver buses
+                a.nav-link(href='/registro/buses') Registrar bus
+                // alertas
+            a.nav-link(href='/alertas')
+              .sb-nav-link-icon
+                i.fas.fa-exclamation-triangle(style='color: #3b91ec; font-size: 20px;')
+              |          Alertas
+                
+        .sb-sidenav-footer
+          .small Logged in as:
+          |                     Start Bootstrap
+
+    block main
+    script(src='https://code.jquery.com/jquery-3.4.1.min.js' crossorigin='anonymous')
+    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js' crossorigin='anonymous')
+    script(src="../socket.io/socket.io.js")
+    block footerBlock
+    script(src="/js/main.js") 

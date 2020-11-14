@@ -37,7 +37,7 @@ exports.login = function(req, res) {
                 // console.log(req.body.password);
                 // console.log();
                 if (bcrypt.compareSync(req.body.password, conductor[0].password)) {
-                    const token = jwt.sign({ _id: conductor[0]._id }, process.env.SECRET_KEY, { expiresIn: "8h" });
+                    const token = jwt.sign({ _id: conductor[0]._id }, req.app.get('secretKey'), { expiresIn: "8h" });
                     res.status(200).json({ status: 'login correcto', data: { 'conductor': conductor[0], 'token': token } });
 
                 } else {

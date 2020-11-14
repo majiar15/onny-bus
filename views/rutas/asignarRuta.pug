@@ -1,4 +1,4 @@
-extends ./layouts/dashboard.pug
+extends ./../layouts/dashboard.pug
 block main
   #layoutSidenav_content
     main
@@ -46,13 +46,11 @@ block main
             a(href='#') Privacy Policy
             |  &middot;
             a(href='#') Terms &amp; Conditions
-  script(src='https://code.jquery.com/jquery-3.4.1.min.js' crossorigin='anonymous')
-  script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js' crossorigin='anonymous')
+block footerBlock
   link(href='https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css' rel='stylesheet')
   script.
     $(document).ready(function() {
     $('.js-example-basic-single').select2();
     });
   script(src='https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js')
-
-  script(src="../socket.io/socket.io.js")
+  script(src="/js/notificaciones.js") 
