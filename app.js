@@ -97,10 +97,6 @@ app.use('/ruta', redirectLogin, rutaRouter);
 //api
 app.use('/api/conductor', conductorApiRouter);
 
-
-
-
-
 app.use('/api/notificaciones', vefifyLoginConductor, notificacionesRouter);
 
 //levartar server

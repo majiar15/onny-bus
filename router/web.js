@@ -30,5 +30,5 @@ router.post('/login', redirectHome, administradorController.login);
 
 router.get('/logout', administradorController.logout);
 
-router.post('/register/administrador', redirectLogin, administradorController.register)
+router.post('/register/administrador', administradorController.register)
 module.exports = router;

@@ -11,17 +11,17 @@ exports.register = function(req, res) {
                 password = req.body.password;
             conductorModel.create({ cc, nombres, apellidos, email, password }, (err, newUser) => {
                 if (err) {
-                    res.status(400).send('error al guardar conductor')
+                    res.render('./conductor/registroConductores', {error: 'ya hay alguien con la misma cedula'});
                 } else {
-                    res.status(200).send('conductor creado correctamente' + newUser);
+                    res.render('./conductor/registroConductores', {message: 'conductor creado correctamente'});
                 };
             });
         } else {
-            res.status(200).send('las contraseñas no coinciden')
+            res.render('./conductor/registroConductores', {error: 'las contraseñas no coincidenr'});
         }
 
     } else {
-        res.status(200).send('no se enviaron los parametros necesarios, los cuales son cc,nombre,apellidos,email.password,confirmpassword')
+        res.render('./conductor/registroConductores', {error: 'no se enviaron los parametros necesarios, los cuales son cc,nombre,apellidos,email.password,confirmpassword'});
     }
 
 }

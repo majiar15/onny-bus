@@ -5,7 +5,13 @@ block main
       .container-fluid
         // quiero cargar las cosas aqui
         h1.mt-4 Registro Conductores
-        form(action='/registro/conductores' method='post')
+        if error
+          span.d-flex.justify-content-center.alert.alert-danger
+            =error
+        if message
+          span.d-flex.justify-content-center.alert.alert-success
+            =message
+        form(action='/conductor/registro' method='post')
           .form-group
             .row
               .col-md-6.col-lg-7
@@ -50,3 +56,5 @@ block main
             a(href='#') politicas de privacidad
             |  &middot;
             a(href='#') terminos &amp; condiciones
+//- block footerBlock 
+//-   script(src="/js/conductor.js")
