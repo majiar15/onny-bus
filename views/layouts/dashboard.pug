@@ -9,6 +9,7 @@ head
   link(href='/css/styles.css' rel='stylesheet')
   link(href='https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css' rel='stylesheet' crossorigin='anonymous')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js' crossorigin='anonymous')
+  script(src="/js/redirect.js")
   block headBlock
 body.sb-nav-fixed
   nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
@@ -61,11 +62,12 @@ body.sb-nav-fixed
               .sb-nav-link-icon
                 i.fas.fa-route(style=' color:#3b91ec; font-size: 20px;')
               |                             Rutas
+              
               .sb-sidenav-collapse-arrow
                 i.fas.fa-angle-down(style=' color:#3b91ec; font-size: 20px;')
             #rutasNav.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordion')
               nav.sb-sidenav-menu-nested.nav
-                a.nav-link(href='/asignar/rutas') Asignar rutas
+                a.nav-link(href='/ruta/asignar') Asignar rutas
                 a.nav-link(href='#') Ver rutas
                 a.nav-link(href='#') Registrar rutas
             // conductores
@@ -77,8 +79,8 @@ body.sb-nav-fixed
                 i.fas.fa-angle-down(style=' color:#3b91ec; font-size: 20px;')
             #conductoresNav.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordion')
               nav.sb-sidenav-menu-nested.nav
-                a.nav-link(href='/conductores') Ver conductor
-                a.nav-link(href='/registro/conductores') Registrar conductor
+                a.nav-link(href='/conductor') Ver conductor
+                a.nav-link(href='/conductor/registro') Registrar conductor
                 // buses
             a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#busesNav' aria-expanded='false' aria-controls='busesNav')
               .sb-nav-link-icon
@@ -89,20 +91,23 @@ body.sb-nav-fixed
             #busesNav.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordion')
               nav.sb-sidenav-menu-nested.nav
                 a.nav-link(href='#') Ver buses
-                a.nav-link(href='/registro/buses') Registrar bus
+                a.nav-link(href='/bus/registro') Registrar bus
                 // alertas
             a.nav-link(href='/alertas')
               .sb-nav-link-icon
                 i.fas.fa-exclamation-triangle(style='color: #3b91ec; font-size: 20px;')
               |          Alertas
-                
-        .sb-sidenav-footer
-          .small Logged in as:
-          |                     Start Bootstrap
+            //- if rol == "admin"
 
+          
+    
+        
     block main
     script(src='https://code.jquery.com/jquery-3.4.1.min.js' crossorigin='anonymous')
     script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js' crossorigin='anonymous')
     script(src="../socket.io/socket.io.js")
     block footerBlock
-    script(src="/js/main.js") 
+    script(src="/js/main.js")      
+    script(src="/js/notificaciones.js") 
+  
+    

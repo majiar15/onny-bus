@@ -18,20 +18,17 @@ head
               .card-header
                 h3.text-center.font-weight-light.my-4 Login
               .card-body
-                form
+                if error
+                  .alert.alert-danger=error
+                form(method="post" action="/login")#form
                   .form-group
-                    label.small.mb-1(for='inputEmailAddress') Email
-                    input#inputEmailAddress.form-control.py-4(type='email' placeholder='Enter email address')
+                    label.small.mb-1(for='inputCc') CC
+                    input#inputCc.form-control.py-4(type='number' placeholder='ingrese su cedula' name="cc")
                   .form-group
                     label.small.mb-1(for='inputPassword') Password
-                    input#inputPassword.form-control.py-4(type='password' placeholder='Enter password')
-                  .form-group
-                    .custom-control.custom-checkbox
-                      input#rememberPasswordCheck.custom-control-input(type='checkbox')
-                      label.custom-control-label(for='rememberPasswordCheck') Remember password
+                    input#inputPassword.form-control.py-4(type='password' placeholder='Enter password' name="password")
                   .form-group.d-flex.align-items-center.justify-content-between.mt-4.mb-0
-                    a.small(href='password.html') Forgot Password?
-                    a.btn.btn-primary(href='/') Login
+                    button(type="submit")#submitLogin.btn.btn-primary Login
   #layoutAuthentication_footer
     footer.py-4.bg-light.mt-auto
       .container-fluid

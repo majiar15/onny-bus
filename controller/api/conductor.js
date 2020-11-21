@@ -27,24 +27,25 @@ exports.register = function(req, res) {
 }
 
 exports.login = function(req, res) {
-    if (req.body.cc && req.body.password) {
-        conductorModel.find({ 'cc': req.body.cc }, (err, conductor) => {
+    const { cc, password } = req.body
 
-            if (err) {
+    if (cc && password) {
+        console.log(cc);
+
+        conductorModel.findOne({ 'cc': cc }, (err, conductor) => {
+            if (!conductor) {
+                res.status(400).send("login incorrecto");
+            } else if (err) {
                 res.status(200).send('no se encontro el conductor con cc ', cc);
             } else {
-                // console.log(conductor[0].password);
-                // console.log(req.body.password);
-                // console.log();
-                if (bcrypt.compareSync(req.body.password, conductor[0].password)) {
-                    const token = jwt.sign({ _id: conductor[0]._id }, req.app.get('secretKey'), { expiresIn: "8h" });
-                    res.status(200).json({ status: 'login correcto', data: { 'conductor': conductor[0], 'token': token } });
+                console.log(conductor);
+                if (bcrypt.compareSync(password, conductor.password)) {
+                    const token = jwt.sign({ _id: conductor._id }, req.app.get('secretKey'), { expiresIn: "8h" });
+                    res.status(200).json({ status: 'login correcto', data: { 'conductor': conductor, 'token': token } });
 
                 } else {
                     res.status(200).send('login incorrecto')
                 }
-
-
             }
         })
     }

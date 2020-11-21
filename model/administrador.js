@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
-let conductorSchema = new Schema({
+let administradorSchema = new Schema({
     cc: {
         type: Number,
         unique: true
@@ -10,10 +10,9 @@ let conductorSchema = new Schema({
     apellidos: String,
     email: String,
     password: String,
-    latitud: String,
-    longitud: String
+    rol: String
 });
-conductorSchema.pre('save', function(next) {
+administradorSchema.pre('save', function(next) {
     if (this.isModified("password")) {
         this.password = bcrypt.hashSync(this.password, 10);
     }
@@ -21,4 +20,4 @@ conductorSchema.pre('save', function(next) {
 });
 
 
-module.exports = mongoose.model('conductor', conductorSchema);
+module.exports = mongoose.model('administrador', administradorSchema);

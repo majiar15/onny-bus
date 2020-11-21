@@ -113,7 +113,7 @@ socket.on('notificacion-robo', (data) => {
     contador.innerHTML = number;
     containerNotificacion.insertAdjacentHTML('afterend', addNotificacionRobo(data));
 
-    if (window.location == 'https://onny-bus.herokuapp.com/alertas') {
+    if (window.location.href.indexOf('/alertas') > -1) {
         let containerAlert = document.querySelector('#container-alert');
         containerAlert.insertAdjacentHTML('afterbegin', addAlert(data));
     }
@@ -140,7 +140,7 @@ socket.on('notificacion-retrazo', (data) => {
     contador.innerHTML = number;
 
 
-    if (window.location == 'https://onny-bus.herokuapp.com/alertas') {
+    if (window.location.href.indexOf('/alertas') > -1) {
         let container = document.querySelector('#container-alert');
         container.insertAdjacentHTML('afterbegin', addAlert(data));
     }

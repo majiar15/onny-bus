@@ -5,32 +5,37 @@ block main
       .container-fluid
         // quiero cargar las cosas aqui
         h1.mt-4 Registro Conductores
-        form(action='')
+        form(action='/registro/conductores' method='post')
           .form-group
             .row
               .col-md-6.col-lg-7
                 label(for='nombre') Nombre
-                input#nombre.form-control(type='text')
+                input#nombre.form-control(type='text' name='nombres')
           .form-group
             .row
               .col-md-6.col-lg-7
                 label(for='apellido') Apellidos
-                input#apellido.form-control(type='text')
+                input#apellido.form-control(type='text' name='apellidos')
+          .form-group
+            .row
+              .col-md-6.col-lg-7
+                label(for='cc') CC
+                input#email.form-control(type='number' name='cc')
           .form-group
             .row
               .col-md-6.col-lg-7
                 label(for='email') Email
-                input#email.form-control(type='email')
+                input#email.form-control(type='email' name='email')
           .form-group
             .row
               .col-md-6.col-lg-7
                 label(for='password') Contrase&ntilde;a
-                input#password.form-control(type='password')
+                input#password.form-control(type='password' name='password')
           .form-group
             .row
               .col-md-6.col-lg-7
                 label(for='confirmar_pass') Confirmar contrase&ntilde;a
-                input#confirmar_pass.form-control(type='password')
+                input#confirmar_pass.form-control(type='password' name='confirmpassword')
           input.btn.btn-primary(type='submit' value='Enviar')
         audio#audio
           source(type='audio/mp3' src='../../assets/mp3/alert.mp3')
@@ -45,5 +50,3 @@ block main
             a(href='#') politicas de privacidad
             |  &middot;
             a(href='#') terminos &amp; condiciones
-block footerBlock
-  script(src="/js/notificaciones.js") 
