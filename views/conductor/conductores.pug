@@ -2,41 +2,83 @@ extends ./../layouts/dashboard.pug
 block main
   #layoutSidenav_content
     main
-      .container-fluid
+      .container
+        h1.mt-4
+          | Conductores
+        if error
+          span.d-flex.justify-content-center.alert.alert-danger
+            =error
+        if message
+          span.d-flex.justify-content-center.alert.alert-success
+            =message  
         // quiero cargar las cosas aqui
-        h1.mt-4 Registro Conductores
-        form(action='')
-          .form-group
-            .row
-              .col-md-6.col-lg-7
-                label(for='nombre') Nombre
-                input#nombre.form-control(type='text')
-          .form-group
-            .row
-              .col-md-6.col-lg-7
-                label(for='apellido') Apellidos
-                input#apellido.form-control(type='text')
-          .form-group
-            .row
-              .col-md-6.col-lg-7
-                label(for='email') Email
-                input#email.form-control(type='email')
-          .form-group
-            .row
-              .col-md-6.col-lg-7
-                label(for='password') Contrase&ntilde;a
-                input#password.form-control(type='password')
-          .form-group
-            .row
-              .col-md-6.col-lg-7
-                label(for='confirmar_pass') Confirmar contrase&ntilde;a
-                input#confirmar_pass.form-control(type='password')
-          input.btn.btn-primary(type='submit' value='Enviar')
-        audio#audio
-          source(type='audio/mp3' src='../../assets/mp3/alert.mp3')
-        // Modal
-        // Button trigger modal
-        button#buttonexampleModalCenter.btn.btn-primary.d-none(type='button' data-toggle='modal' data-target='#exampleModalCenter')
+        button.btn.btn-success.mb-5(data-toggle='modal', data-target='#RegistrarConductor')
+          | Registrar
+          | Conductor
+        table.table
+          thead.thead-light
+            tr
+              th(scope='col') CC
+              th(scope='col') Nombres
+              th(scope='col') Apellidos
+              th(scope='col') Email
+              th(scope='col') Acciones
+          tbody
+            each conductor in conductores 
+              tr
+                th(scope='row')= conductor.cc
+                td= conductor.nombres
+                td= conductor.apellidos
+                td= conductor.email
+                td
+                  a(href=`/conductor/update/${conductor._id}`).btn.btn-warning Update
+                  a(href=`/conductor/remove/${conductor._id}`).btn.btn-danger remove
+      #RegistrarConductor.modal.fade(tabindex='-1', aria-labelledby='RegistrarConductorLabel', aria-hidden='true')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              h5#exampleModalLabel.modal-title Registrar Conductor
+              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') &times;
+            .modal-body
+              form(action='/conductor/registro', method='post')
+                .form-group
+                  .row
+                    .col-12
+                      label(for='nombre') Nombre
+                      input#nombre.form-control(type='text', name='nombres')
+                .form-group
+                  .row
+                    .col-12
+                      label(for='apellido') Apellidos
+                      input#apellido.form-control(type='text', name='apellidos')
+                .form-group
+                  .row
+                    .col-12
+                      label(for='cc') CC
+                      input#email.form-control(type='number', name='cc')
+                .form-group
+                  .row
+                    .col-12
+                      label(for='email') Email
+                      input#email.form-control(type='email', name='email')
+                .form-group
+                  .row
+                    .col-12
+                      label(for='password') Contrase&ntilde;a
+                      input#password.form-control(type='password', name='password')
+                .form-group
+                  .row
+                    .col-12
+                      label(for='confirmar_pass')
+                        | Confirmar
+                        | contrase&ntilde;a
+                      input#confirmar_pass.form-control(type='password', name='confirmpassword')
+                .modal-footer
+                  button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+                  input.btn.btn-primary(type='submit', value='Enviar')
+      // Button trigger modal
+      button#buttonexampleModalCenter.btn.btn-primary.d-none(type='button', data-toggle='modal', data-target='#exampleModalCenter')
     footer.py-4.bg-light.mt-auto
       .container-fluid
         .d-flex.align-items-center.justify-content-between.small
@@ -44,4 +86,6 @@ block main
           div
             a(href='#') politicas de privacidad
             |  &middot;
-            a(href='#') terminos &amp; condiciones
+            a(href='#')
+              | terminos &amp;
+              | condiciones
