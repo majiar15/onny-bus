@@ -4,7 +4,10 @@ block main
     main
       .container-fluid
         // quiero cargar las cosas aqui
-        h1.mt-4 Registro Conductores
+        if type = 'registro'
+          h1.mt-4 Registro Conductor
+        else  
+          h1.mt-4 Actualizar Conductor
         if error
           span.d-flex.justify-content-center.alert.alert-danger
             =error
@@ -42,12 +45,9 @@ block main
               .col-md-6.col-lg-7
                 label(for='confirmar_pass') Confirmar contrase&ntilde;a
                 input#confirmar_pass.form-control(type='password' name='confirmpassword')
-          input.btn.btn-primary(type='submit' value='Enviar')
+          input.btn.btn-primary.mb-4(type='submit' value='Enviar')
         audio#audio
-          source(type='audio/mp3' src='../../assets/mp3/alert.mp3')
-        // Modal
-        // Button trigger modal
-        button#buttonexampleModalCenter.btn.btn-primary.d-none(type='button' data-toggle='modal' data-target='#exampleModalCenter')
+          source(type='audio/mp3' src='../../assets/mp3/alert.mp3')      
     footer.py-4.bg-light.mt-auto
       .container-fluid
         .d-flex.align-items-center.justify-content-between.small

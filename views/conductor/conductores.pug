@@ -1,20 +1,15 @@
 extends ./../layouts/dashboard.pug
+block headBlock
+  link(href='/css/paginationStyle.css' rel='stylesheet')
 block main
   #layoutSidenav_content
     main
       .container
         h1.mt-4
           | Conductores
-        if error
-          span.d-flex.justify-content-center.alert.alert-danger
-            =error
-        if message
-          span.d-flex.justify-content-center.alert.alert-success
-            =message  
+ 
         // quiero cargar las cosas aqui
-        button.btn.btn-success.mb-5(data-toggle='modal', data-target='#RegistrarConductor')
-          | Registrar
-          | Conductor
+
         table.table
           thead.thead-light
             tr
@@ -24,7 +19,7 @@ block main
               th(scope='col') Email
               th(scope='col') Acciones
           tbody
-            each conductor in conductores 
+            each conductor in context.conductores 
               tr
                 th(scope='row')= conductor.cc
                 td= conductor.nombres
@@ -33,52 +28,31 @@ block main
                 td
                   a(href=`/conductor/update/${conductor._id}`).btn.btn-warning Update
                   a(href=`/conductor/remove/${conductor._id}`).btn.btn-danger remove
-      #RegistrarConductor.modal.fade(tabindex='-1', aria-labelledby='RegistrarConductorLabel', aria-hidden='true')
-        .modal-dialog
-          .modal-content
-            .modal-header
-              h5#exampleModalLabel.modal-title Registrar Conductor
-              button.close(type='button', data-dismiss='modal', aria-label='Close')
-                span(aria-hidden='true') &times;
-            .modal-body
-              form(action='/conductor/registro', method='post')
-                .form-group
-                  .row
-                    .col-12
-                      label(for='nombre') Nombre
-                      input#nombre.form-control(type='text', name='nombres')
-                .form-group
-                  .row
-                    .col-12
-                      label(for='apellido') Apellidos
-                      input#apellido.form-control(type='text', name='apellidos')
-                .form-group
-                  .row
-                    .col-12
-                      label(for='cc') CC
-                      input#email.form-control(type='number', name='cc')
-                .form-group
-                  .row
-                    .col-12
-                      label(for='email') Email
-                      input#email.form-control(type='email', name='email')
-                .form-group
-                  .row
-                    .col-12
-                      label(for='password') Contrase&ntilde;a
-                      input#password.form-control(type='password', name='password')
-                .form-group
-                  .row
-                    .col-12
-                      label(for='confirmar_pass')
-                        | Confirmar
-                        | contrase&ntilde;a
-                      input#confirmar_pass.form-control(type='password', name='confirmpassword')
-                .modal-footer
-                  button.btn.btn-secondary(type='button', data-dismiss='modal') Close
-                  input.btn.btn-primary(type='submit', value='Enviar')
-      // Button trigger modal
-      button#buttonexampleModalCenter.btn.btn-primary.d-none(type='button', data-toggle='modal', data-target='#exampleModalCenter')
+        ul.pagination.justify-content-end.danger
+          if context.num_pages > 1
+            if context.num_page != 1 
+              li.page-item
+                a.page-link(href=`/conductor/page/${context.num_page-1}`)
+                  <span aria-hidden="true">&laquo;</span>
+            - let index = 1; 
+            - for (let index=1; index<=context.num_pages; index++)
+              if context.num_page === index
+                li.page-item.active
+                  a.page-link(href="#")= index
+              else
+                li.page-item
+                  a.page-link(href=`/conductor/page/${index}`)= index
+            if context.num_page != context.num_pages
+              li.page-item
+                a.page-link(href=`/conductor/page/${index+1}`)
+                  <span aria-hidden="true">&raquo;</span>
+              
+          
+                            
+        
+        
+ 
+        
     footer.py-4.bg-light.mt-auto
       .container-fluid
         .d-flex.align-items-center.justify-content-between.small

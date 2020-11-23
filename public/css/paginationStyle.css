@@ -1,0 +1,10 @@
+.pagination>li>a,
+ .pagination>li>span {
+  border: 1px solid #000000 !important;
+  color: black;
+}
+
+.pagination>li.active>a {
+  background: #000000 !important;
+  color: #fff !important;
+}
