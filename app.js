@@ -24,7 +24,7 @@ app.set('port', process.env.PORT || 3000);
 app.set('secretKey', 'jwt_secret.15asASD');
 // configuracion de base de datos
 mongoose.set('useCreateIndex', true)
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify:false });
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', err => {
@@ -88,7 +88,7 @@ app.use(session({
 //web
 app.use('/', webRouter);
 app.use('/alertas', redirectLogin, alertasRouter);
-app.use('/conductor', redirectLogin, conductorRouter);
+app.use('/conductor',  conductorRouter);
 app.use('/bus', redirectLogin, busRouter);
 app.use('/ruta', redirectLogin, rutaRouter);
 

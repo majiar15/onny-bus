@@ -26,19 +26,63 @@ exports.register = function(req, res) {
 
 }
 
-exports.modificar = function(req, res) {
-    const { cc, nombres, apellidos, email, password } = req.body;
-    conductorModel.findOneAndUpdate({ 'cc': cc },{nombres,apellidos,email,password}, (err, conductor) => {
+exports.update = function(req, res) {
+    const { id, cc, nombres, apellidos, email, password } = req.body;; 
+    if(cc, id , nombres, apellidos, email, password){
+        let valueChange = {nombres, apellidos, email, password}
+        conductorModel.findOne({_id:id},(err, conductor)=>{
+            if (!conductor) {
+                res.render('./conductor/registroConductores', { type:"update"});
+            } else if (err) {
+                res.render('./conductor/registroConductores', { err , type: "update" });
+            } else {    
+                conductor.nombres = nombres;
+                conductor.apellidos = apellidos;
+                conductor.email = email;
+            
+                if(password != conductor.password){
+                    conductor.password = password;
+                }
+                conductor.save();
+                conductor.password = "password";
+                res.render('./conductor/registroConductores', { conductor,message: "conductor modificado correctamente", type : "update" });
+            }
+    
+        });
+        
+
+        // conductorModel.findById(id, (err, result) =>{
+        //     if(err){
+        //         res.render('./conductor/registroConductores', { err , type: "update" , conductor : {id,cc,nombres,apellidos,email,password}} ); 
+        //     }else{
+        //         console.log("object");
+                
+        //         result.nombres = nombres;
+        //         result.apellidos = apellidos;
+        //         result.email = email;
+        //         result.passpassword =password;
+        //         result.save();
+        //         res.render('./conductor/registroConductores', { message: "datos moficados correctamente", type : "update" , conductor: result});
+        //     }
+        // })
+
+    }
+    else{
+        res.render('./conductor/registroConductores', { error: "no se enviaron los datos correctos", type : "update" });
+    }
+}
+exports.updateGet = function(req,res) {
+    const {id} = req.params;
+    conductorModel.findOne({_id: id}, function(err, conductor){
         if (!conductor) {
-            res.render('./conductor/registroConductores', { message: "error al rende", type:"update"});
+            res.render('./conductor/registroConductores', { type:"update"});
         } else if (err) {
             res.render('./conductor/registroConductores', { err , type: "update" });
-        } else {
-            res.render('./conductor/registroConductores', { message: "datos moficados correctamente", type : "update" });
+        } else {    
+            res.render('./conductor/registroConductores', { conductor, type : "update" });
         }
     });
 }
-
 exports.home = function (req,res) {
     let {num_page} = req.params;
     num_page = parseInt(num_page)
@@ -64,7 +108,6 @@ exports.home = function (req,res) {
                 num_page: num_page,
                 num_pages: num_pages
             }
-            console.log(context);
             res.render('./conductor/conductores', context);
         }
     });

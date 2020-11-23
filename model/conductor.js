@@ -15,10 +15,10 @@ let conductorSchema = new Schema({
 });
 conductorSchema.pre('save', function(next) {
     if (this.isModified("password")) {
+    
         this.password = bcrypt.hashSync(this.password, 10);
     }
     next();
 });
-
 
 module.exports = mongoose.model('conductor', conductorSchema);

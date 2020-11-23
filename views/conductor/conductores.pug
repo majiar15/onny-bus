@@ -9,7 +9,8 @@ block main
           | Conductores
  
         // quiero cargar las cosas aqui
-
+        if message
+          .alert.alert-success= message
         table.table
           thead.thead-light
             tr
