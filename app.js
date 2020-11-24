@@ -57,15 +57,6 @@ function redirectLogin(req, res, next) {
     }
 }
 
-function redirectHome(req, res, next) {
-    if (req.session.userId) {
-        res.redirect('/');
-    } else {
-        next();
-    }
-}
-
-
 
 
 //middleware
@@ -88,14 +79,14 @@ app.use(session({
 //web
 app.use('/', webRouter);
 app.use('/alertas', redirectLogin, alertasRouter);
-app.use('/conductor',  conductorRouter);
-app.use('/bus', redirectLogin, busRouter);
+app.use('/conductor', redirectLogin, conductorRouter);
+app.use('/bus', busRouter);
 app.use('/ruta', redirectLogin, rutaRouter);
 
 
 
 //api
-app.use('/api/conductor', conductorApiRouter);
+app.use('/api/conductor', vefifyLoginConductor, conductorApiRouter);
 
 app.use('/api/notificaciones', vefifyLoginConductor, notificacionesRouter);
 

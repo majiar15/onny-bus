@@ -26,12 +26,17 @@ block main
           .form-group
             .row
               .col-md-6.col-lg-7
-                label(for='placa') Placa
+                label(for='placa') Placa de bus
                 input#placa.form-control(type='text')
           .form-group
             .row
               .col-md-6.col-lg-3
-                label(for='fecha') Fecha
+                label(for='fecha') Fecha de inicio
+                input#Fecha.form-control(type='date')
+          .form-group
+            .row
+              .col-md-6.col-lg-3
+                label(for='fecha') Fecha de fin
                 input#Fecha.form-control(type='date')
           input.btn.btn-primary(type='submit' value='Enviar')
         audio#audio

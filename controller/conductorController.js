@@ -1,6 +1,6 @@
 const conductorModel = require('../model/conductor');
 const bcrypt = require('bcrypt');
-const conductor = require('../model/conductor');
+
 exports.register = function(req, res) {
     if (req.body.cc && req.body.nombres && req.body.apellidos && req.body.email && req.body.password && req.body.confirmpassword) {
         if (req.body.password === req.body.confirmpassword) {
@@ -30,7 +30,6 @@ exports.register = function(req, res) {
 exports.update = function(req, res) {
     const { id, cc, nombres, apellidos, email, password } = req.body;; 
     if(cc, id , nombres, apellidos, email, password){
-        let valueChange = {nombres, apellidos, email, password}
         conductorModel.findOne({_id:id},(err, conductor)=>{
             if (!conductor) {
                 res.render('./conductor/registroConductores', { type:"update"});
@@ -82,7 +81,7 @@ exports.home = function (req,res) {
     .lean()
     .exec((err, conductores) =>{
         
-        if(!conductor){
+        if(!conductores){
             res.render('./conductor/conductores');
         }else if(err){
             

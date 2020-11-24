@@ -4,18 +4,34 @@ block main
     main
       .container-fluid
         // quiero cargar las cosas aqui
-        h1.mt-4 Registro buses
-        form(action='')
+        if type == 'registro'
+          h1.mt-4 Registro Bus
+        else if type == "update"
+          h1.mt-4 Actualizar Bus
+        if error
+          span.d-flex.justify-content-center.alert.alert-danger
+            =error
+        if message
+          span.d-flex.justify-content-center.alert.alert-success
+            =message
+        form(action=`/bus/${type}` method="post")
           .form-group
             .row
               .col-md-6.col-lg-7
-                label(for='nombre') Placa
-                input#nombre.form-control(type='text')
+                label(for='placa') Placa
+                if bus
+                  input#nombre.form-control(type='text' name="placa" maxlength="7" minlength="6" value=`${bus.placa}`)
+                else
+                  input#nombre.form-control(type='text' name="placa" maxlength="6" minlength="6" )
           .form-group
             .row
               .col-md-6.col-lg-7
-                label(for='apellido') codigo
-                input#apellido.form-control(type='text')
+                label(for='apellido') numero de serie
+                if bus
+                  input#apellido.form-control(type='text' name="nSerie"  maxlength="3" minlength="3" value=`${bus.nSerie}`)
+                  input.form-control(type='hidden' name="id"  value=`${bus._id}`)
+                else
+                  input#apellido.form-control(type='text' name="nSerie"  maxlength="3" minlength="3" )
           input.btn.btn-primary(type='submit' value='enviar')
         audio#audio
           source(type='audio/mp3' src='../../assets/mp3/alert.mp3')

@@ -1,0 +1,62 @@
+extends ./../layouts/dashboard.pug
+block headBlock
+  link(href='/css/paginationStyle.css' rel='stylesheet')
+block main
+  #layoutSidenav_content
+    main
+      .container
+        h1.mt-4
+          | Buses
+ 
+        // quiero cargar las cosas aqui
+        if message
+          .alert.alert-success= message
+        table.table
+          thead.thead-light
+            tr
+              th(scope='col' ) Placa
+              th(scope='col') Numero de Serie
+              th(scope='col') Acciones
+          tbody
+            each bus in context.buses 
+              tr
+                th(scope='row')= bus.placa
+                td= bus.nSerie
+                td
+                  a(href=`/bus/update/${bus._id}`).btn.btn-warning Update
+                  a(href=`/bus/remove/${bus._id}`).btn.btn-danger remove
+        ul.pagination.justify-content-end.danger
+          if context.num_pages > 1
+            if context.num_page != 1 
+              li.page-item
+                a.page-link(href=`/bus/page/${context.num_page-1}`)
+                  <span aria-hidden="true">&laquo;</span>
+            - let index = 1; 
+            - for (let index=1; index<=context.num_pages; index++)
+              if context.num_page === index
+                li.page-item.active
+                  a.page-link(href="#")= index
+              else
+                li.page-item
+                  a.page-link(href=`/bus/page/${index}`)= index
+            if context.num_page != context.num_pages
+              li.page-item
+                a.page-link(href=`/bus/page/${index+1}`)
+                  <span aria-hidden="true">&raquo;</span>
+              
+          
+                            
+        
+        
+ 
+        
+    footer.py-4.bg-light.mt-auto
+      .container-fluid
+        .d-flex.align-items-center.justify-content-between.small
+          .text-muted Copyright &copy;onny bus 2020
+          div
+            a(href='#') politicas de privacidad
+            |  &middot;
+            a(href='#')
+              | terminos &amp;
+              | condiciones

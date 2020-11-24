@@ -4,13 +4,29 @@ const Schema = mongoose.Schema;
 let administradorSchema = new Schema({
     cc: {
         type: Number,
-        unique: true
+        unique: true,
+        trim:true
     },
-    nombres: String,
-    apellidos: String,
-    email: String,
-    password: String,
-    rol: String
+    nombres: {
+        type:Number,
+        trim:true
+    },
+    apellidos: {
+        type: String,
+        trim:true    
+    },
+    email: {
+        type: String,
+        trim:true    
+    },
+    password: {
+        type: String,
+        trim:true    
+    },
+    rol: {
+        type: String,
+        trim:true    
+    }
 });
 administradorSchema.pre('save', function(next) {
     if (this.isModified("password")) {
