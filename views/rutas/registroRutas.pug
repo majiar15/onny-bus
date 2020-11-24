@@ -1,0 +1,77 @@
+extends ./../layouts/dashboard.pug
+block main
+  #layoutSidenav_content
+    main
+      .container-fluid
+        // quiero cargar las cosas aqui
+        if type == 'registro'
+          h1.mt-4 Registro Rutas
+        else if type == "update"
+          h1.mt-4 Actualizar Rutas
+        if error
+          span.d-flex.justify-content-center.alert.alert-danger
+            =error
+        if message
+          span.d-flex.justify-content-center.alert.alert-success
+            =message
+        form(action=`/conductor/${type}` method='post')
+          .form-group
+            .row
+              .col-md-6.col-lg-7
+                label(for='nombre') Nombre
+                if conductor
+                  input#nombre.form-control(type='text' name='nombres' value=`${conductor.nombres}`)
+                else
+                  input#nombre.form-control(type='text' name='nombres')
+          .form-group
+            .row
+              .col-md-6.col-lg-7
+                label(for='apellido') Apellidos
+                if conductor
+                  input#nombre.form-control(type='text' name='apellidos' value=`${conductor.apellidos}`)
+                else
+                  input#apellido.form-control(type='text' name='apellidos')
+          if conductor
+            input#nombre.form-control(type='hidden' name='cc' value=`${conductor.cc}`)
+            input#nombre.form-control(type='hidden' name='id' value=`${conductor._id}`)
+          else
+            .form-group
+              .row
+                .col-md-6.col-lg-7
+                  label(for='cc') CC
+                  input#email.form-control(type='number' name='cc')
+          .form-group
+            .row
+              .col-md-6.col-lg-7
+                label(for='email') Email
+                if conductor
+                  input#nombre.form-control(type='email' name='email' value=`${conductor.email}`)
+                else
+                  input#email.form-control(type='email' name='email')
+          .form-group
+            .row
+              .col-md-6.col-lg-7
+                label(for='password') Contrase&ntilde;a
+                if conductor
+                  input#nombre.form-control(type='password' name='password' value=`${conductor.password}`)
+                else
+                  input#password.form-control(type='password' name='password')
+          if type !='update'
+            .form-group
+              .row
+                .col-md-6.col-lg-7
+                  label(for='confirmar_pass') Confirmar contrase&ntilde;a
+                  input#confirmar_pass.form-control(type='password' name='confirmpassword')
+          input.btn.btn-primary.mb-4(type='submit' value='Enviar')
+        audio#audio
+          source(type='audio/mp3' src='../../assets/mp3/alert.mp3')      
+    footer.py-4.bg-light.mt-auto
+      .container-fluid
+        .d-flex.align-items-center.justify-content-between.small
+          .text-muted Copyright &copy;onny bus 2020
+          div
+            a(href='#') politicas de privacidad
+            |  &middot;
+            a(href='#') terminos &amp; condiciones
+//- block footerBlock 
+//-   script(src="/js/conductor.js")
