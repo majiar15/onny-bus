@@ -9,7 +9,8 @@ exports.register = function(req, res) {
                 apellidos = req.body.apellidos,
                 email = req.body.email,
                 password = req.body.password;
-            conductorModel.create({ cc, nombres, apellidos, email, password }, (err, newUser) => {
+                activo = true;
+            conductorModel.create({ cc, nombres, apellidos, email, password, activo }, (err, newUser) => {
                 if (err) {
                     res.render('./conductor/registroConductores', {error: 'ya hay alguien con la misma cedula', type: "registro"});
                 } else {
@@ -50,22 +51,6 @@ exports.update = function(req, res) {
     
         });
         
-
-        // conductorModel.findById(id, (err, result) =>{
-        //     if(err){
-        //         res.render('./conductor/registroConductores', { err , type: "update" , conductor : {id,cc,nombres,apellidos,email,password}} ); 
-        //     }else{
-        //         console.log("object");
-                
-        //         result.nombres = nombres;
-        //         result.apellidos = apellidos;
-        //         result.email = email;
-        //         result.passpassword =password;
-        //         result.save();
-        //         res.render('./conductor/registroConductores', { message: "datos moficados correctamente", type : "update" , conductor: result});
-        //     }
-        // })
-
     }
     else{
         res.render('./conductor/registroConductores', { error: "no se enviaron los datos correctos", type : "update" });
@@ -87,11 +72,11 @@ exports.home = function (req,res) {
     let {num_page} = req.params;
     num_page = parseInt(num_page)
     skip_page = (num_page-1)*10;
-    conductorModel.countDocuments().then(function ( count ){
+    conductorModel.countDocuments({activo: true}).then(function ( count ){
         num_pages = parseInt((count/10)+1);
     });
 
-    conductorModel.find({},"_id cc nombres apellidos email")
+    conductorModel.find({ activo: true },"_id cc nombres apellidos email")
     .skip(skip_page)
     .limit(10)
     .lean()
@@ -111,4 +96,21 @@ exports.home = function (req,res) {
             res.render('./conductor/conductores', context);
         }
     });
+}
+exports.remove = function(req,res) {
+    const id = req.params.id;
+    console.log(id);
+    if(id){
+        conductorModel.update({ _id: id },{activo : false},(err,conductor)=>{
+            console.log(conductor);
+            console.log(err);
+            if (!conductor) {
+                res.redirect('/conductor/page/1');
+            } else if (err) {
+                res.redirect('/conductor/page/1');
+            } else {    
+                res.redirect('/conductor/page/1');
+            }
+        })
+    }
 }

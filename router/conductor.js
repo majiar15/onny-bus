@@ -10,4 +10,6 @@ router.post('/registro', conductorController.register);
 
 router.get('/update/:id', conductorController.updateGet)
 router.post('/update', conductorController.update)
+
+router.get('/remove/:id', conductorController.remove);
 module.exports = router;

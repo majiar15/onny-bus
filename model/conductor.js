@@ -10,6 +10,7 @@ let conductorSchema = new Schema({
     apellidos: String,
     email: String,
     password: String,
+    activo: Boolean,
     latitud: String,
     longitud: String
 });
