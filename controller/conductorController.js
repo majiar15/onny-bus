@@ -87,12 +87,12 @@ exports.home = function (req,res) {
             
             res.render('./conductor/conductores', { message: err });
         }else{
-            context = {
+            contextConductor = {
                 conductores : conductores,
                 num_page: num_page,
                 num_pages: num_pages
             }
-            res.render('./conductor/conductores', context);
+            res.render('./conductor/conductores', contextConductor);
         }
     });
 }

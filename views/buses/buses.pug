@@ -17,33 +17,35 @@ block main
               th(scope='col' ) Placa
               th(scope='col') Numero de Serie
               th(scope='col') Acciones
-          tbody
-            each bus in context.buses 
-              tr
-                th(scope='row')= bus.placa
-                td= bus.nSerie
-                td
-                  a(href=`/bus/update/${bus._id}`).btn.btn-warning Update
-                  a(href=`/bus/remove/${bus._id}`).btn.btn-danger remove
+          tbod
+            if contextBus
+              each bus in contextBus.buses 
+                tr
+                  th(scope='row')= bus.placa
+                  td= bus.nSerie
+                  td
+                    a(href=`/bus/update/${bus._id}`).btn.btn-warning Update
+                    a(href=`/bus/remove/${bus._id}`).btn.btn-danger remove
         ul.pagination.justify-content-end.danger
-          if context.num_pages > 1
-            if context.num_page != 1 
-              li.page-item
-                a.page-link(href=`/bus/page/${context.num_page-1}`)
-                  <span aria-hidden="true">&laquo;</span>
-            - let index = 1; 
-            - for (let index=1; index<=context.num_pages; index++)
-              if context.num_page === index
-                li.page-item.active
-                  a.page-link(href="#")= index
-              else
+          if contextBus
+            if contextBus.num_pages > 1
+              if contextBus.num_page != 1 
                 li.page-item
-                  a.page-link(href=`/bus/page/${index}`)= index
-            if context.num_page != context.num_pages
-              li.page-item
-                a.page-link(href=`/bus/page/${index+1}`)
-                  <span aria-hidden="true">&raquo;</span>
-              
+                  a.page-link(href=`/bus/page/${contextBus.num_page-1}`)
+                    <span aria-hidden="true">&laquo;</span>
+              - let index = 1; 
+              - for (let index=1; index<=contextBus.num_pages; index++)
+                if contextBus.num_page === index
+                  li.page-item.active
+                    a.page-link(href="#")= index
+                else
+                  li.page-item
+                    a.page-link(href=`/bus/page/${index}`)= index
+              if contextBus.num_page != contextBus.num_pages
+                li.page-item
+                  a.page-link(href=`/bus/page/${index+1}`)
+                    <span aria-hidden="true">&raquo;</span>
+                
           
                             
         

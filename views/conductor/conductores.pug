@@ -20,34 +20,36 @@ block main
               th(scope='col') Email
               th(scope='col') Acciones
           tbody
-            each conductor in context.conductores 
-              tr
-                th(scope='row')= conductor.cc
-                td= conductor.nombres
-                td= conductor.apellidos
-                td= conductor.email
-                td
-                  a(href=`/conductor/update/${conductor._id}`).btn.btn-warning Update
-                  a(href=`/conductor/remove/${conductor._id}`).btn.btn-danger remove
+            if contextConductor
+              each conductor in contextConductor.conductores 
+                tr
+                  th(scope='row')= conductor.cc
+                  td= conductor.nombres
+                  td= conductor.apellidos
+                  td= conductor.email
+                  td
+                    a(href=`/conductor/update/${conductor._id}`).btn.btn-warning Update
+                    a(href=`/conductor/remove/${conductor._id}`).btn.btn-danger remove
         ul.pagination.justify-content-end.danger
-          if context.num_pages > 1
-            if context.num_page != 1 
-              li.page-item
-                a.page-link(href=`/conductor/page/${context.num_page-1}`)
-                  <span aria-hidden="true">&laquo;</span>
-            - let index = 1; 
-            - for (let index=1; index<=context.num_pages; index++)
-              if context.num_page === index
-                li.page-item.active
-                  a.page-link(href="#")= index
-              else
+          if contextConductor
+            if contextConductor.num_pages > 1
+              if contextConductor.num_page != 1 
                 li.page-item
-                  a.page-link(href=`/conductor/page/${index}`)= index
-            if context.num_page != context.num_pages
-              li.page-item
-                a.page-link(href=`/conductor/page/${index+1}`)
-                  <span aria-hidden="true">&raquo;</span>
-              
+                  a.page-link(href=`/conductor/page/${contextConductor.num_page-1}`)
+                    <span aria-hidden="true">&laquo;</span>
+              - let index = 1; 
+              - for (let index=1; index<=contextConductor.num_pages; index++)
+                if contextConductor.num_page === index
+                  li.page-item.active
+                    a.page-link(href="#")= index
+                else
+                  li.page-item
+                    a.page-link(href=`/conductor/page/${index}`)= index
+              if contextConductor.num_page != contextConductor.num_pages
+                li.page-item
+                  a.page-link(href=`/conductor/page/${index+1}`)
+                    <span aria-hidden="true">&raquo;</span>
+                
           
                             
         

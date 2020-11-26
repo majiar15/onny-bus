@@ -17,32 +17,34 @@ block main
               th(scope='col') Nombre
               th(scope='col') Acciones
           tbody
-            each ruta in context.rutas 
-              tr
-                th(scope='row')= ruta.nombre
-                td
-                  a(href=`/ruta/update/${ruta._id}`).btn.btn-warning Update
-                  a(href=`/ruta/remove/${ruta._id}`).btn.btn-danger remove
+            if contextRuta
+              each ruta in context.rutas 
+                tr
+                  th(scope='row')= ruta.nombre
+                  td
+                    a(href=`/ruta/update/${ruta._id}`).btn.btn-warning Update
+                    a(href=`/ruta/remove/${ruta._id}`).btn.btn-danger remove
         ul.pagination.justify-content-end.danger
-          if context.num_pages > 1
-            if context.num_page != 1 
-              li.page-item
-                a.page-link(href=`/ruta/page/${context.num_page-1}`)
-                  <span aria-hidden="true">&laquo;</span>
-            - let index = 1; 
-            - for (let index=1; index<=context.num_pages; index++)
-              if context.num_page === index
-                li.page-item.active
-                  a.page-link(href="#")= index
-              else
+          if contextRuta
+            if contextRuta.num_pages > 1
+              if contextRuta.num_page != 1 
                 li.page-item
-                  a.page-link(href=`/ruta/page/${index}`)= index
-            if context.num_page != context.num_pages
-              li.page-item
-                a.page-link(href=`/ruta/page/${index+1}`)
-                  <span aria-hidden="true">&raquo;</span>
-              
-          
+                  a.page-link(href=`/ruta/page/${contextRuta.num_page-1}`)
+                    <span aria-hidden="true">&laquo;</span>
+              - let index = 1; 
+              - for (let index=1; index<=contextRuta.num_pages; index++)
+                if contextRuta.num_page === index
+                  li.page-item.active
+                    a.page-link(href="#")= index
+                else
+                  li.page-item
+                    a.page-link(href=`/ruta/page/${index}`)= index
+              if contextRuta.num_page != contextRuta.num_pages
+                li.page-item
+                  a.page-link(href=`/ruta/page/${index+1}`)
+                    <span aria-hidden="true">&raquo;</span>
+                
+            
                             
         
         

@@ -100,12 +100,12 @@ exports.home = function (req,res) {
             
             res.render('./rutas/rutas', { message: err });
         }else{
-            context = {
+            contextRuta = {
                 rutas : rutas,
                 num_page: num_page,
                 num_pages: num_pages
             }
-            res.render('./rutas/rutas', context);
+            res.render('./rutas/rutas', contextRuta);
         }
     });
 }

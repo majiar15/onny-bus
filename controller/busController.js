@@ -72,17 +72,18 @@ exports.home = function (req,res) {
     .exec((err, bus) =>{
         
         if(bus.length == 0){
+            console.log("object");
             res.render('./buses/buses');
         }else if(err){
             
             res.render('./buses/buses', { message: err });
         }else{
-            context = {
+            contextBus = {
                 buses : bus,
                 num_page: num_page,
                 num_pages: num_pages
             }
-            res.render('./buses/buses', context);
+            res.render('./buses/buses', contextBus);
         }
     });
 }
