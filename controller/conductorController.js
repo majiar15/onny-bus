@@ -81,7 +81,7 @@ exports.home = function (req,res) {
     .lean()
     .exec((err, conductores) =>{
         
-        if(!conductores){
+        if(conductores.length == 0){
             res.render('./conductor/conductores');
         }else if(err){
             

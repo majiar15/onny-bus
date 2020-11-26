@@ -71,7 +71,7 @@ exports.home = function (req,res) {
     .lean()
     .exec((err, bus) =>{
         
-        if(!bus){
+        if(bus.length == 0){
             res.render('./buses/buses');
         }else if(err){
             

@@ -94,7 +94,7 @@ exports.home = function (req,res) {
     .lean()
     .exec((err, rutas) =>{
         
-        if(!rutas){
+        if(rutas.length == 0){
             res.render('./rutas/rutas');
         }else if(err){
             
