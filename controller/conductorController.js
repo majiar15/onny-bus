@@ -73,6 +73,8 @@ exports.home = function (req,res) {
     skip_page = (num_page-1)*10;
     conductorModel.countDocuments({activo: true}).then(function ( count ){
         num_pages = parseInt((count/10)+1);
+    }).catch(function(err) {
+        num_pages = 1;
     });
 
     conductorModel.find({ activo: true },"_id cc nombres apellidos email")
@@ -80,18 +82,19 @@ exports.home = function (req,res) {
     .limit(10)
     .lean()
     .exec((err, conductores) =>{
-        
-        if(conductores.length == 0){
-            res.render('./conductor/conductores');
+        contextConductor = {
+            conductores : conductores,
+            num_page: num_page,
+            num_pages: num_pages
+        }
+
+        if(conductores.length === 0){
+            res.render('./conductor/conductores', {error: "no hay conductores registrados", contextConductor} );
         }else if(err){
             
             res.render('./conductor/conductores', { message: err });
         }else{
-            contextConductor = {
-                conductores : conductores,
-                num_page: num_page,
-                num_pages: num_pages
-            }
+            
             res.render('./conductor/conductores', contextConductor);
         }
     });

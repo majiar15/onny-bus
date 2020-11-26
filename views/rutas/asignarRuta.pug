@@ -11,12 +11,12 @@ block main
         if message
           span.d-flex.justify-content-center.alert.alert-success
             =message
-        form
+        form(action="/ruta/asignar" method="post")
           .form-group
             .row
               .col-md-6.col-lg-7
                 label(for='ruta') Rutas
-                select#ruta.form-control
+                select#ruta.form-control(name="ruta")
                   if rutas
                     each ruta in rutas
                       option(value=`${ruta._id}`)= ruta.nombre  
@@ -26,7 +26,7 @@ block main
             .row
               .col-md-6.col-lg-7
                 label(for='conductor') Conductores
-                select#ruta.form-control.js-example-basic-single
+                select#ruta.form-control.js-example-basic-single(name="conductor")
                   if conductores
                     each conductor in conductores
                         option(value=`${conductor._id}`)= conductor.nombres+" "+conductor.apellidos  
@@ -36,7 +36,7 @@ block main
             .row
               .col-md-6.col-lg-7
                 label(for='placa') Placa de bus
-                select#buses.form-control.bus-js-example-basic-single
+                select#buses.form-control.bus-js-example-basic-single(name="bus")
                   if buses
                     each bus in buses
                         option(value=`${bus._id}`)= bus.placa  
@@ -46,13 +46,13 @@ block main
             .row
               .col-md-6.col-lg-3
                 label(for='fecha') Fecha de inicio
-                input#Fecha.form-control(type='date')
+                input#Fecha.form-control(type='date' name="fechaInicio" required="true")
           .form-group
             .row
               .col-md-6.col-lg-3
                 label(for='fecha') Fecha de fin
-                input#Fecha.form-control(type='date')
-          input.btn.btn-primary(type='submit' value='Enviar')
+                input#Fecha.form-control(type='date' name="fechaFin" required="true")
+          input.btn.btn-primary(type='submit' value='Enviar' )
         audio#audio
           source(type='audio/mp3' src='../../assets/mp3/alert.mp3')
         // Button trigger modal

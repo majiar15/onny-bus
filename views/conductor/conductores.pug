@@ -10,7 +10,9 @@ block main
  
         // quiero cargar las cosas aqui
         if message
-          .alert.alert-success= message
+          .alert.alert-success.text-center= message
+        if error
+          .alert.alert-danger.text-center= error
         table.table
           thead.thead-light
             tr

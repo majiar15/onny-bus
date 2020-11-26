@@ -63,6 +63,8 @@ exports.home = function (req,res) {
     skip_page = (num_page-1)*10;
     busModel.countDocuments({activo: true}).then(function ( count ){
         num_pages = parseInt((count/10)+1);
+    }).catch(function(err) {
+        num_pages = 1;
     });
 
     busModel.find({ activo: true })
@@ -70,19 +72,18 @@ exports.home = function (req,res) {
     .limit(10)
     .lean()
     .exec((err, bus) =>{
-        
-        if(bus.length == 0){
-            console.log("object");
-            res.render('./buses/buses');
+        contextBus = {
+            buses : bus,
+            num_page: num_page,
+            num_pages: num_pages
+        }
+        if(bus.length === 0){
+            res.render('./buses/buses', {error: "no hay buses registrados", contextBus});
         }else if(err){
             
             res.render('./buses/buses', { message: err });
         }else{
-            contextBus = {
-                buses : bus,
-                num_page: num_page,
-                num_pages: num_pages
-            }
+            
             res.render('./buses/buses', contextBus);
         }
     });

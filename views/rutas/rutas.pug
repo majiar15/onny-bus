@@ -10,7 +10,9 @@ block main
  
         // quiero cargar las cosas aqui
         if message
-          .alert.alert-success= message
+          .alert.alert-success.text-center= message
+        if error
+          .alert.alert-danger.text-center= error
         table.table
           thead.thead-light
             tr
@@ -18,7 +20,7 @@ block main
               th(scope='col') Acciones
           tbody
             if contextRuta
-              each ruta in context.rutas 
+              each ruta in contextRuta.rutas 
                 tr
                   th(scope='row')= ruta.nombre
                   td

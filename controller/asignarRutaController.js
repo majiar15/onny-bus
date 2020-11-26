@@ -35,3 +35,13 @@ exports.home = function(req,res) {
         }
     });
 }
+exports.asignar = function(req,res) {
+    const {ruta, conductor, bus, fechaInicio, fechaFin} = req.body;
+    console.log(ruta, conductor, bus, fechaInicio,fechaFin);
+    if(ruta, conductor, bus, fechaInicio, fechaFin){
+        res.send(":D")
+
+    }else{
+        res.send(":c")
+    }
+}

@@ -86,6 +86,8 @@ exports.home = function (req,res) {
     skip_page = (num_page-1)*10;
     rutaModel.countDocuments({activo : true}).then(function ( count ){
         num_pages = parseInt((count/10)+1);
+    }).catch(function(err) {
+        num_pages = 1;
     });
 
     rutaModel.find({activo : true})
@@ -93,18 +95,19 @@ exports.home = function (req,res) {
     .limit(10)
     .lean()
     .exec((err, rutas) =>{
-        
+        contextRuta = {
+            rutas : rutas,
+            num_page: num_page,
+            num_pages: num_pages
+        }
         if(rutas.length == 0){
-            res.render('./rutas/rutas');
+            
+            res.render('./rutas/rutas' , {error: "no hay rutas registradas", contextRuta});
         }else if(err){
             
             res.render('./rutas/rutas', { message: err });
         }else{
-            contextRuta = {
-                rutas : rutas,
-                num_page: num_page,
-                num_pages: num_pages
-            }
+         
             res.render('./rutas/rutas', contextRuta);
         }
     });
