@@ -1,5 +1,4 @@
 const busModel = require('../model/bus');
-const bcrypt = require('bcrypt');
 
 exports.register = function(req, res) {
     let {placa , nSerie} = req.body;

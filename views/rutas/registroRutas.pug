@@ -14,54 +14,32 @@ block main
         if message
           span.d-flex.justify-content-center.alert.alert-success
             =message
-        form(action=`/conductor/${type}` method='post')
+        form(action=`/ruta/${type}` method='post')
           .form-group
             .row
               .col-md-6.col-lg-7
                 label(for='nombre') Nombre
-                if conductor
-                  input#nombre.form-control(type='text' name='nombres' value=`${conductor.nombres}`)
+                if ruta
+                  input#nombre.form-control(type='text' name='nombre' value=`${ruta.nombre}`)
                 else
-                  input#nombre.form-control(type='text' name='nombres')
-          .form-group
-            .row
-              .col-md-6.col-lg-7
-                label(for='apellido') Apellidos
-                if conductor
-                  input#nombre.form-control(type='text' name='apellidos' value=`${conductor.apellidos}`)
-                else
-                  input#apellido.form-control(type='text' name='apellidos')
-          if conductor
-            input#nombre.form-control(type='hidden' name='cc' value=`${conductor.cc}`)
-            input#nombre.form-control(type='hidden' name='id' value=`${conductor._id}`)
-          else
+                  input#nombre.form-control(type='text' name='nombre')
             .form-group
               .row
                 .col-md-6.col-lg-7
-                  label(for='cc') CC
-                  input#email.form-control(type='number' name='cc')
-          .form-group
-            .row
-              .col-md-6.col-lg-7
-                label(for='email') Email
-                if conductor
-                  input#nombre.form-control(type='email' name='email' value=`${conductor.email}`)
-                else
-                  input#email.form-control(type='email' name='email')
-          .form-group
-            .row
-              .col-md-6.col-lg-7
-                label(for='password') Contrase&ntilde;a
-                if conductor
-                  input#nombre.form-control(type='password' name='password' value=`${conductor.password}`)
-                else
-                  input#password.form-control(type='password' name='password')
-          if type !='update'
+                  label(for='nombre') latitud
+                  if ruta
+                    textarea.form-control(name="latitud", cols="20", rows="5")= ruta.latitud
+                  else
+                    textarea.form-control(name="latitud", cols="20", rows="5")
             .form-group
               .row
                 .col-md-6.col-lg-7
-                  label(for='confirmar_pass') Confirmar contrase&ntilde;a
-                  input#confirmar_pass.form-control(type='password' name='confirmpassword')
+                  label(for='nombre') longitud
+                  if ruta
+                    textarea.form-control(name="longitud", cols="20", rows="5" )=ruta.longitud
+                    input(type="hidden", name="id" value=`${ruta.id}`)
+                  else
+                    textarea.form-control(name="longitud", cols="20", rows="5")            
           input.btn.btn-primary.mb-4(type='submit' value='Enviar')
         audio#audio
           source(type='audio/mp3' src='../../assets/mp3/alert.mp3')      

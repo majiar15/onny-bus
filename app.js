@@ -11,6 +11,7 @@ const busRouter = require('./router/bus');
 const rutaRouter = require('./router/ruta');
 const conductorRouter = require('./router/conductor');
 const conductorApiRouter = require('./router/api/conductorApi');
+const rutasApiRouter = require('./router/api/rutasApi');
 const SocketIO = require('socket.io');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
@@ -79,15 +80,15 @@ app.use(session({
 //web
 app.use('/', webRouter);
 app.use('/alertas', redirectLogin, alertasRouter);
-app.use('/conductor', redirectLogin, conductorRouter);
-app.use('/bus', redirectLogin, busRouter);
-app.use('/ruta', redirectLogin, rutaRouter);
+app.use('/conductor',  conductorRouter);
+app.use('/bus',  busRouter);
+app.use('/ruta',  rutaRouter);
 
 
 
 //api
 app.use('/api/conductor', conductorApiRouter);
-
+app.use('/api/rutas', rutasApiRouter)
 app.use('/api/notificaciones', vefifyLoginConductor, notificacionesRouter);
 
 //levartar server

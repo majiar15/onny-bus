@@ -5,29 +5,43 @@ block main
       .container-fluid
         // quiero cargar las cosas aqui
         h1.mt-4 Asignar Rutas
+        if error
+          span.d-flex.justify-content-center.alert.alert-danger
+            =error
+        if message
+          span.d-flex.justify-content-center.alert.alert-success
+            =message
         form
           .form-group
             .row
               .col-md-6.col-lg-7
-                label(for='ruta') Ruta
+                label(for='ruta') Rutas
                 select#ruta.form-control
-                  option RUTA-D10 Malambo Via Caracoli
-                  option RUTA-C17 Malambo Via40
-                  option RUTA-D11 Calle 11 Zoologico
-                  option RUTA-D9 Bernando Soledad
+                  if rutas
+                    each ruta in rutas
+                      option(value=`${ruta._id}`)= ruta.nombre  
+                  else
+                      option(disabled="true") no hay rutas registradas
           .form-group
             .row
               .col-md-6.col-lg-7
-                label(for='conductor') Conductor
+                label(for='conductor') Conductores
                 select#ruta.form-control.js-example-basic-single
-                  option Daniel Salinas Salinas
-                  option Yitzhak Ruiz Niebles
-                  option Martin Jimenez Aragon
+                  if conductores
+                    each conductor in conductores
+                        option(value=`${conductor._id}`)= conductor.nombres+" "+conductor.apellidos  
+                  else
+                      option(disabled="true") no hay conductores registradas
           .form-group
             .row
               .col-md-6.col-lg-7
                 label(for='placa') Placa de bus
-                input#placa.form-control(type='text')
+                select#buses.form-control.bus-js-example-basic-single
+                  if buses
+                    each bus in buses
+                        option(value=`${bus._id}`)= bus.placa  
+                  else
+                      option(disabled="true") no hay buses registradas
           .form-group
             .row
               .col-md-6.col-lg-3
@@ -56,6 +70,7 @@ block footerBlock
   script.
     $(document).ready(function() {
     $('.js-example-basic-single').select2();
+    $('.bus-js-example-basic-single').select2();
     });
   script(src='https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js')
   script(src="/js/notificaciones.js") 
