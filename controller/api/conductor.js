@@ -11,9 +11,9 @@ exports.login = function(req, res) {
 
         conductorModel.findOne({ 'cc': cc }, (err, conductor) => {
             if (!conductor) {
-                res.status(400).send("login incorrecto");
+                res.status(400).json({status: "login incorrecto", data: 'no se encontro el conductor con cc :'+cc});
             } else if (err) {
-                res.status(200).send('no se encontro el conductor con cc ', cc);
+                res.status(400).json({status: "login incorrecto",  data: "error al encontrar el conductor con cc:"+cc});
             } else {
                 console.log(conductor);
                 if (bcrypt.compareSync(password, conductor.password)) {
@@ -21,7 +21,7 @@ exports.login = function(req, res) {
                     res.status(200).json({ status: 'login correcto', data: { 'conductor': conductor, 'token': token } });
 
                 } else {
-                    res.status(200).send('login incorrecto')
+                    res.status(400).json({status: "login incorrecto", data:"contraseña incorrecta"})
                 }
             }
         })

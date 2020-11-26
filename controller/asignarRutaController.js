@@ -2,7 +2,7 @@ const asignarRutaModel = require('../model/asignarRuta');
 const conductorModel = require('../model/conductor');
 const rutaModel = require('../model/ruta');
 const busModel = require('../model/bus');
-
+const moment = require('moment');
 
 exports.home = function(req,res) { 
     // encontrar todos los conductores activos 
@@ -37,11 +37,20 @@ exports.home = function(req,res) {
 }
 exports.asignar = function(req,res) {
     const {ruta, conductor, bus, fechaInicio, fechaFin} = req.body;
-    console.log(ruta, conductor, bus, fechaInicio,fechaFin);
+    console.log(ruta, conductor, bus, moment(fechaInicio),moment(fechaFin));
     if(ruta, conductor, bus, fechaInicio, fechaFin){
-        res.send(":D")
+        asignarRutaModel.create({conductor, ruta, bus, fechaInicio,fechaInicio}, function(err,asignarRuta) {
+            if(!asignarRuta){
+                res.render('./rutas/asignarRuta', {error: "ya esta un bus asignardo a esa ruta durante esa fecha"});
+            }else if (err){
+                res.render('./rutas/asignarRuta', {error: "no se pudo asignar la ruta"});
+            }else{
+                res.render('./rutas/asignarRuta', {message: "ruta asignada"});
+            }
+
+        });
 
     }else{
-        res.send(":c")
+        res.render('./rutas/asignarRuta', {message: "no ha enviado los datos necesarios"});
     }
 }

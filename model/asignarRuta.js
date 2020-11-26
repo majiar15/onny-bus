@@ -10,7 +10,7 @@ let asignarRutaSchema = new Schema({
     hasta: Date,
     
 });
-
+asignarRutaSchema.index({ruta:1,bus:1,desde:1,hasta:1},{ unique: true });
 // reservaSchema.methods.diasDeReserva = function() {
 //     return moment(this.hasta).diff(moment(this.desde),'days') +1;
 // }
