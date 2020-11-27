@@ -11,8 +11,8 @@ let conductorSchema = new Schema({
     email: String,
     password: String,
     activo: Boolean,
-    latitud: String,
-    longitud: String
+    latitud: Number,
+    longitud: Number
 });
 conductorSchema.pre('save', function(next) {
     if (this.isModified("password")) {

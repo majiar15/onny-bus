@@ -7,7 +7,6 @@ exports.login = function(req, res) {
     const { cc, password } = req.body
 
     if (cc && password) {
-        console.log(cc);
 
         conductorModel.findOne({ 'cc': cc }, (err, conductor) => {
             if (!conductor) {
@@ -15,7 +14,6 @@ exports.login = function(req, res) {
             } else if (err) {
                 res.status(400).json({status: "login incorrecto",  data: "error al encontrar el conductor con cc:"+cc});
             } else {
-                console.log(conductor);
                 if (bcrypt.compareSync(password, conductor.password)) {
                     const token = jwt.sign({ _id: conductor._id }, req.app.get('secretKey'), { expiresIn: "8h" });
                     res.status(200).json({ status: 'login correcto', data: { 'conductor': conductor, 'token': token } });
@@ -28,13 +26,21 @@ exports.login = function(req, res) {
     }
 }
 exports.updateLatLong = function(req,res) {
-    let id = req.params.id;
+    let id = req.body.id;
     let latitud = req.body.latitud;
     let longitud = req.body.longitud;
     if(id, latitud, longitud){
-        conductorModel.update({_id:id}, {latitud:latitud, longitud:longitud}, (err, conductor)=>{
-            res.status(200).json({data: conductor})
-        })
-
+        conductorModel.updateOne({_id:id}, {latitud:latitud, longitud:longitud},  (err, conductor)=>{
+            if(!conductor){
+                res.status(400).json({status: "peticion incorrecta", message: "no hay conductor con id: "+id});
+            }
+            else if(err){
+                res.status(400).json({status: "peticion incorrecta", message: "error al realizar la actualizacion"+err});
+            }else{
+                res.status(200).json({status: "peticion correcta", message:"actualizacion de ubicacion correcta"});
+            }
+        });
+    }else{
+        res.status(400).json({status: "peticion incorrecta", message: "no se pasaron los parametros necesarios"});
     }
 }
