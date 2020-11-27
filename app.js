@@ -80,9 +80,9 @@ app.use(session({
 //web
 app.use('/', webRouter);
 app.use('/alertas', redirectLogin, alertasRouter);
-app.use('/conductor',  redirectLogin, conductorRouter);
-app.use('/bus',  redirectLogin, busRouter);
-app.use('/ruta',  redirectLogin, rutaRouter);
+app.use('/conductor',  conductorRouter);
+app.use('/bus',  busRouter);
+app.use('/ruta',  rutaRouter);
 
 
 

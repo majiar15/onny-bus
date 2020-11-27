@@ -1,0 +1,74 @@
+extends ./../layouts/dashboard.pug
+block headBlock
+  link(href='/css/paginationStyle.css' rel='stylesheet')
+block main
+  #layoutSidenav_content
+    main
+      .container
+        h1.mt-4
+          | Rutas Asignadas
+ 
+        // quiero cargar las cosas aqui
+        if message
+          .alert.alert-success.text-center= message
+        if error
+          .alert.alert-danger.text-center= error
+        table.table
+          thead.thead-light
+            tr
+              th(scope='col') cc
+              th(scope='col') Nombre
+              th(scope='col') apellidos
+              th(scope='col') ruta
+              th(scope='col') placa
+              th(scope='col') fecha
+              th(scope='col') Acciones
+          tbody
+            if context
+              each asignamiento in context.asignarRuta
+                tr
+                  th(scope='row')= asignamiento.conductor.cc
+                  td= asignamiento.conductor.nombres
+                  td= asignamiento.conductor.apellidos
+                  td= asignamiento.ruta.nombre
+                  td= asignamiento.bus.placa
+                  td= asignamiento.fechaInicio+" / "+asignamiento.fechaFin
+                  td
+                    a(href=`/ruta/asignar/update/${asignamiento._id}`).btn.btn-warning Update
+                    a(href=`/ruta/asignar/remove/${asignamiento._id}`).btn.btn-danger remove
+        ul.pagination.justify-content-end.danger
+          if context
+            if context.num_pages > 1
+              if context.num_page != 1 
+                li.page-item
+                  a.page-link(href=`/ruta/page/${context.num_page-1}`)
+                    <span aria-hidden="true">&laquo;</span>
+              - let index = 1; 
+              - for (let index=1; index<=context.num_pages; index++)
+                if context.num_page === index
+                  li.page-item.active
+                    a.page-link(href="#")= index
+                else
+                  li.page-item
+                    a.page-link(href=`/ruta/page/${index}`)= index
+              if context.num_page != context.num_pages
+                li.page-item
+                  a.page-link(href=`/ruta/page/${index+1}`)
+                    <span aria-hidden="true">&raquo;</span>
+                
+            
+                            
+        
+        
+ 
+        
+    footer.py-4.bg-light.mt-auto
+      .container-fluid
+        .d-flex.align-items-center.justify-content-between.small
+          .text-muted Copyright &copy;onny bus 2020
+          div
+            a(href='#') politicas de privacidad
+            |  &middot;
+            a(href='#')
+              | terminos &amp;
+              | condiciones

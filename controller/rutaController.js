@@ -123,7 +123,7 @@ exports.remove = function(req,res) {
             } else {    
                 res.redirect('/ruta/page/1');
             }
-        })
+        });
     }
 }
 

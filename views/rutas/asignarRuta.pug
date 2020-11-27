@@ -1,17 +1,24 @@
 extends ./../layouts/dashboard.pug
+
 block main
   #layoutSidenav_content
     main
       .container-fluid
         // quiero cargar las cosas aqui
-        h1.mt-4 Asignar Rutas
+        if type == 'registro'
+          
+          h1.mt-4 Asignar Rutas
+        else if type == "update"
+          
+          h1.mt-4 Actualizar Ruta Asiganada
         if error
           span.d-flex.justify-content-center.alert.alert-danger
             =error
         if message
           span.d-flex.justify-content-center.alert.alert-success
             =message
-        form(action="/ruta/asignar" method="post")
+        
+        form(action=`${url}` method="post")
           .form-group
             .row
               .col-md-6.col-lg-7
@@ -19,9 +26,12 @@ block main
                 select#ruta.form-control(name="ruta")
                   if rutas
                     each ruta in rutas
-                      option(value=`${ruta._id}`)= ruta.nombre  
+                      if elegido.ruta == ruta.id
+                        option(value=`${ruta._id}` selected="true")= ruta.nombre  
+                      else
+                        option(value=`${ruta._id}`)= ruta.nombre  
                   else
-                      option(disabled="true") no hay rutas registradas
+                    option(disabled="true") no hay rutas registradas
           .form-group
             .row
               .col-md-6.col-lg-7
@@ -29,6 +39,9 @@ block main
                 select#ruta.form-control.js-example-basic-single(name="conductor")
                   if conductores
                     each conductor in conductores
+                      if elegido.conductor == conductor.id
+                        option(value=`${conductor._id}` selected="true")= conductor.nombres+" "+conductor.apellidos  
+                      else
                         option(value=`${conductor._id}`)= conductor.nombres+" "+conductor.apellidos  
                   else
                       option(disabled="true") no hay conductores registradas
@@ -39,19 +52,29 @@ block main
                 select#buses.form-control.bus-js-example-basic-single(name="bus")
                   if buses
                     each bus in buses
-                        option(value=`${bus._id}`)= bus.placa  
+                      if elegido.bus == bus.id
+                        option(value=`${bus._id}` selected="true")= bus.placa  
+                      else
+                        option(value=`${bus._id}`)=  bus.placa  
                   else
                       option(disabled="true") no hay buses registradas
           .form-group
             .row
               .col-md-6.col-lg-3
                 label(for='fecha') Fecha de inicio
-                input#Fecha.form-control(type='date' name="fechaInicio" required="true")
+                if elegido
+                  input#Fecha.form-control(type='date' name="fechaInicio" required="true" value=`${elegido.fechaInicio}`)
+                  input(type="hidden" name="id" value=`${elegido._id}`)
+                else
+                  input#Fecha.form-control(type='date' name="fechaInicio" required="true")
           .form-group
             .row
               .col-md-6.col-lg-3
                 label(for='fecha') Fecha de fin
-                input#Fecha.form-control(type='date' name="fechaFin" required="true")
+                if elegido
+                  input#Fecha.form-control(type='date' name="fechaFin" required="true" value=`${elegido.fechaFin}`)
+                else
+                  input#Fecha.form-control(type='date' name="fechaFin" required="true")
           input.btn.btn-primary(type='submit' value='Enviar' )
         audio#audio
           source(type='audio/mp3' src='../../assets/mp3/alert.mp3')
