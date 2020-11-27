@@ -27,3 +27,14 @@ exports.login = function(req, res) {
         })
     }
 }
+exports.updateLatLong = function(req,res) {
+    let id = req.params.id;
+    let latitud = req.body.latitud;
+    let longitud = req.body.longitud;
+    if(id, latitud, longitud){
+        conductorModel.update({_id:id}, {latitud:latitud, longitud:longitud}, (err, conductor)=>{
+            res.status(200).json({data: conductor})
+        })
+
+    }
+}

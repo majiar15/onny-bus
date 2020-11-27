@@ -1,6 +1,4 @@
 const rutaModel = require('../../model/ruta');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 
 exports.getAll = function(req, res) {
