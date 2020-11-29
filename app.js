@@ -89,9 +89,9 @@ app.use('/ruta',  rutaRouter);
 
 //api
 // midleware vefifyLoginConductor
-app.use('/api/conductor', conductorApiRouter);
-app.use('/api/rutas', rutasApiRouter)
-app.use('/api/notificaciones',  notificacionesRouter);
+app.use('/api/conductor',vefifyLoginConductor, conductorApiRouter);
+app.use('/api/rutas',vefifyLoginConductor, rutasApiRouter)
+app.use('/api/notificaciones',vefifyLoginConductor,  notificacionesRouter);
 
 //levartar server
 const server = app.listen(app.get('port'), function() {
