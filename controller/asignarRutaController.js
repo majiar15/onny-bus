@@ -55,7 +55,7 @@ exports.asignar = function (req, res) {
     const { ruta, conductor, bus, fechaInicio, fechaFin } = req.body;
 
     if (ruta, conductor, bus, fechaInicio, fechaFin) {
-
+        
         asignarRutaModel.create({ conductor, ruta, bus, fechaInicio, fechaFin, activo: true }, function (err, asignarRuta) {
             if (!asignarRuta) {
                 findBusConductorAndRoute(res, false, "ya esta un bus asignardo a esa ruta durante esa fecha");
@@ -140,7 +140,7 @@ function findBusConductorAndRoute(res, message, error, elegido = false, type="re
             res.render('./rutas/asignarRuta', { type, error: "error al encontrar conductores" , url});
         } else {
             //encontrar todas las rutas activas
-            rutaModel.find({ activo: true }, (err, rutas) => {
+            rutaModel.find( (err, rutas) => {
                 if (rutas.length == 0) {
                     res.render('./rutas/asignarRuta', { type, error: "no hay rutas registrados" , url});
                 } else if (err) {

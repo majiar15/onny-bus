@@ -5,16 +5,16 @@ const bcrypt = require('bcrypt');
 exports.home = function (req,res) {
     let {num_page} = req.params;
     num_page = parseInt(num_page)
-    skip_page = (num_page-1)*10;
+    skip_page = (num_page-1)*30;
     alertaModel.countDocuments().then(function ( count ){
-        num_pages = parseInt((count/10)+1);
+        num_pages = parseInt((count/30)+1);
     }).catch(function(err) {
         num_pages = 1;
     });
 
     alertaModel.find({},"bus fecha hora tipo message")
     .skip(skip_page)
-    .limit(10)
+    .limit(30)
     .lean()
     .sort({_id: -1})
     .exec((err, alertas) =>{

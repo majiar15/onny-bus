@@ -4,7 +4,7 @@ let Schema = mongoose.Schema;
 
 let asignarRutaSchema = new Schema({
     conductor:{ type: mongoose.Schema.Types.ObjectId,ref:'conductor'},
-    ruta : {type: mongoose.Schema.Types.ObjectId, ref: 'ruta'}, 
+    ruta : {type: mongoose.Schema.Types.Number, ref: 'ruta'}, 
     bus : {type: mongoose.Schema.Types.ObjectId, ref: 'bus'}, 
     fechaInicio : {
         type: String,

@@ -1,21 +1,16 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 let  rutaSchema = new Schema({
+    _id: {
+        type: Number,
+        unique:true,
+        trim:true
+    },
     nombre: {
         type: String,
         unique: true,
         trim:true,
         required: "es requerido el nombre de la ruta"
-    },
-    latitud: {
-        type: [Number],
-        trim: true
-
-    },
-    longitud: {
-        type: [Number],
-        trim: true
-
     },
     activo: Boolean
     
