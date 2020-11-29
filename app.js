@@ -80,10 +80,10 @@ app.use(session({
 //web
 // midleware vefifyLoginConductor
 app.use('/', webRouter);
-app.use('/alertas',vefifyLoginConductor, alertasRouter);
-app.use('/conductor',vefifyLoginConductor,  conductorRouter);
-app.use('/bus',vefifyLoginConductor,  busRouter);
-app.use('/ruta',vefifyLoginConductor,  rutaRouter);
+app.use('/alertas',redirectLogin, alertasRouter);
+app.use('/conductor',redirectLogin,  conductorRouter);
+app.use('/bus',redirectLogin,  busRouter);
+app.use('/ruta',redirectLogin,  rutaRouter);
 
 
 
