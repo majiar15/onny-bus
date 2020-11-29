@@ -80,17 +80,17 @@ app.use(session({
 //web
 // midleware vefifyLoginConductor
 app.use('/', webRouter);
-app.use('/alertas', alertasRouter);
-app.use('/conductor',  conductorRouter);
-app.use('/bus',  busRouter);
-app.use('/ruta',  rutaRouter);
+app.use('/alertas',vefifyLoginConductor, alertasRouter);
+app.use('/conductor',vefifyLoginConductor,  conductorRouter);
+app.use('/bus',vefifyLoginConductor,  busRouter);
+app.use('/ruta',vefifyLoginConductor,  rutaRouter);
 
 
 
 //api
 // midleware vefifyLoginConductor
 app.use('/api/conductor', conductorApiRouter);
-app.use('/api/rutas',vefifyLoginConductor, rutasApiRouter)
+app.use('/api/rutas', rutasApiRouter)
 app.use('/api/notificaciones',vefifyLoginConductor,  notificacionesRouter);
 
 //levartar server
