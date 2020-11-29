@@ -30,8 +30,10 @@ exports.updateLatLong = function(req,res) {
     let latitud = req.body.latitud;
     let longitud = req.body.longitud;
     if(id, latitud, longitud){
-        conductorModel.updateOne({_id:id}, {latitud:latitud, longitud:longitud},  (err, conductor)=>{
+        conductorModel.findOneAndUpdate(id, {latitud:latitud, longitud:longitud}, {new:true}, (err, conductor)=>{
+    
             if(!conductor){
+
                 res.status(400).json({status: "peticion incorrecta", message: "no hay conductor con id: "+id});
             }
             else if(err){
