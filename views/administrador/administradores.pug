@@ -1,0 +1,63 @@
+extends ./../layouts/dashboard.pug
+block headBlock
+  link(href='/css/paginationStyle.css' rel='stylesheet')
+block main
+  #layoutSidenav_content
+    main
+      .container
+        h1.mt-4
+          | Conductores
+ 
+        // quiero cargar las cosas aqui
+        if message
+          .alert.alert-success.text-center= message
+        if error
+          .alert.alert-danger.text-center= error
+        table.table
+          thead.thead-light
+            tr
+              th(scope='col') CC
+              th(scope='col') Nombres
+              th(scope='col') Apellidos
+              th(scope='col') Email
+              th(scope='col') Acciones
+          tbody
+            if contextAdministrador
+              each administrador in contextAdministrador.administradores
+                tr
+                  th(scope='row')= administrador.cc
+                  td= administrador.nombres
+                  td= administrador.apellidos
+                  td= administrador.email
+                  td
+                    a(href=`/administrador/update/${administradores._id}`).btn.btn-warning Update
+                    a(href=`/administrador/remove/${administradores._id}`).btn.btn-danger remove
+        ul.pagination.justify-content-end.danger
+          if contextAdministrador
+            if contextAdministrador.num_pages > 1
+              if contextAdministrador.num_page != 1 
+                li.page-item
+                  a.page-link(href=`/administrador/page/${contextAdministrador.num_page-1}`)
+                    <span aria-hidden="true">&laquo;</span>
+              - let index = 1; 
+              - for (let index=1; index<=contextAdministrador.num_pages; index++)
+                if contextAdministrador.num_page === index
+                  li.page-item.active
+                    a.page-link(href="#")= index
+                else
+                  li.page-item
+                    a.page-link(href=`/administrador/page/${index}`)= index
+              if contextAdministrador.num_page != contextAdministrador.num_pages
+                li.page-item
+                  a.page-link(href=`/administrador/page/${index+1}`)
+                    <span aria-hidden="true">&raquo;</span>        
+    footer.py-4.bg-light.mt-auto
+      .container-fluid
+        .d-flex.align-items-center.justify-content-between.small
+          .text-muted Copyright &copy;onny bus 2020
+          div
+            a(href='#') politicas de privacidad
+            |  &middot;
+            a(href='#')
+              | terminos &amp;
+              | condiciones
