@@ -78,8 +78,9 @@ app.use(session({
 //rutas
 
 //web
+// midleware vefifyLoginConductor
 app.use('/', webRouter);
-app.use('/alertas', redirectLogin, alertasRouter);
+app.use('/alertas', alertasRouter);
 app.use('/conductor',  conductorRouter);
 app.use('/bus',  busRouter);
 app.use('/ruta',  rutaRouter);
@@ -87,9 +88,10 @@ app.use('/ruta',  rutaRouter);
 
 
 //api
+// midleware vefifyLoginConductor
 app.use('/api/conductor', conductorApiRouter);
 app.use('/api/rutas', rutasApiRouter)
-app.use('/api/notificaciones', vefifyLoginConductor, notificacionesRouter);
+app.use('/api/notificaciones',  notificacionesRouter);
 
 //levartar server
 const server = app.listen(app.get('port'), function() {

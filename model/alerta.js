@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-let NotificacionesSchema = new Schema({
+let alertaSchema = new Schema({
     bus: String,
     fecha: String,
     hora: String,
@@ -10,4 +10,4 @@ let NotificacionesSchema = new Schema({
 
 });
 
-module.exports = mongoose.model('notificaciones', NotificacionesSchema);
+module.exports = mongoose.model('alerta', alertaSchema);

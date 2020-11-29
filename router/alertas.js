@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
-
-router.get('/', (req, res) => res.render('./alertas/alertas'));
+const alertaController = require('../controller/alertaController');
+// (req, res) => res.render('./alertas/alertas')
+router.get('/', alertaController.home);
 
 module.exports = router;

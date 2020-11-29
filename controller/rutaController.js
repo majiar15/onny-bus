@@ -8,15 +8,15 @@ exports.register = function(req, res) {
         longitud = longitud.trim();
         let coordenadas = verifyLatLong(latitud, longitud);
 
-        if (!coordenadas.verifyLong){
+        // if (!coordenadas.verifyLong){
 
-            res.render('./rutas/registroRutas', {error: 'longitud mal formateada: long1,long2,long3', ruta: {nombre, latitud, longitud},  type: "registro"});
+        //     res.render('./rutas/registroRutas', {error: 'longitud mal formateada: long1,long2,long3', ruta: {nombre, latitud, longitud},  type: "registro"});
 
-        }else if(!coordenadas.verifyLat){
+        // }else if(!coordenadas.verifyLat){
         
-            res.render('./rutas/registroRutas', {error: 'latitud mal formateada: lat1,lat2,lat3', ruta: {nombre, latitud, longitud},  type: "registro"});
+        //     res.render('./rutas/registroRutas', {error: 'latitud mal formateada: lat1,lat2,lat3', ruta: {nombre, latitud, longitud},  type: "registro"});
 
-        }else{
+        // }else{
 
             rutaModel.create({nombre:nombre, latitud: coordenadas.latitud, longitud: coordenadas.latitud, activo: true}, (err, newRuta) => {
                     if (err) {
@@ -25,7 +25,7 @@ exports.register = function(req, res) {
                         res.render('./rutas/registroRutas', {message: 'ruta creada correctamente', ruta: newRuta,  type: "registro"});
                     };
                 });
-        }
+        // }
     } else {
         res.render('./rutas/registroRutas', {error: 'no se enviaron los datos necesarios (nombre)', ruta: {nombre, latitud, longitud},  type: "registro"});
     }

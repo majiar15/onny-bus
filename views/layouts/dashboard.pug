@@ -100,13 +100,14 @@ body.sb-nav-fixed
               |          Alertas
             //- if rol == "admin"
 
-          
+    
     
         
     block main
+    button#buttonexampleModalCenter.d-none(type='button' data-toggle='modal' data-target='#exampleModalCenter')
     script(src='https://code.jquery.com/jquery-3.4.1.min.js' crossorigin='anonymous')
     script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js' crossorigin='anonymous')
-    script(src="../socket.io/socket.io.js")
+    script(src="/socket.io/socket.io.js")
     block footerBlock
     script(src="/js/main.js")      
     script(src="/js/notificaciones.js") 

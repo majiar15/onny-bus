@@ -7,7 +7,7 @@ exports.getConductorsByRoute = function(req,res) {
     let hoy = moment(new Date());
     let objetRequest = [];
     if(idRoute){
-        asignarRutaModel.find({ruta: idRoute, activo: true}, "_id conductor bus fechaInicio fechaFin",(err,document)=>{
+        asignarRutaModel.find({ruta: idRoute, activo: true}, "_id conductor",(err,document)=>{
             // seleccionando documentos que se encuentran dentro de la fecha
             if(document.length == 0){
                 res.status(400).json({status: "peticion incorrecta", message:"no se encontraron asignamiento de rutas al id: "+idRoute})
@@ -15,7 +15,7 @@ exports.getConductorsByRoute = function(req,res) {
                 res.status(400).json({status: "peticion incorrecta", message:"error al realizar la peticion : "+err})
             }else{
                 document.forEach((doc)=>{
-                    // console.log(moment(hoy).diff(doc.fechaFin,'d') + 1);
+                    
                     let CountDaysfechaInicio = moment(doc.fechaInicio).diff(hoy, 'day')
                     let CountDaysfechaFin = moment(doc.fechaFin).diff(hoy, 'day')
                     if(CountDaysfechaInicio <= 0 && CountDaysfechaFin >= 0){
@@ -23,12 +23,10 @@ exports.getConductorsByRoute = function(req,res) {
                     }
                     
                 });
-                if(objetRequest.length != 0){
-                    busModel.populate(objetRequest, { select:"placa", path: 'bus' }, function () {
+                if(objetRequest.length != 0){               
                         conductorModel.populate(objetRequest, { select:"nombres apellidos latitud longitud",path: 'conductor' }, function (err, document) {
                             res.status(200).json({status: "peticion correcta", data:document});
                         });
-                    });
                 }else{
                     res.status(400).json({status: "peticion incorrecta", message:"no hay conductores asignados en esta ruta"});
                 }
