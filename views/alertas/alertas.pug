@@ -1,4 +1,6 @@
 extends ./../layouts/dashboard.pug
+block headBlock
+  link(href='/css/paginationStyle.css' rel='stylesheet')
 block main
   #layoutSidenav_content
     main
@@ -6,6 +8,35 @@ block main
         // quiero cargar las cosas aqui
         h1.mt-4 Alertas
         #container-alert.row
+          if alertas
+            each alerta in contextAlertas.alertas  
+              .col-ms-6.col-md-6.col-lg-6
+                if alerta.tipo == 'robo'
+                  .alert.alert-danger(role='alert' style="padding-bottom: 35px;")
+                    strong!=`bus: ${alerta.bus} <br> TIPO: ${alerta.tipo} <br> FECHA: ${alerta.fecha} <br> HORA: ${alerta.hora}`
+                else
+                  .alert.alert-warning(role='alert' )
+                    strong!=`bus: ${alerta.bus} <br> TIPO: ${alerta.tipo} <br> FECHA: ${alerta.fecha} <br> HORA: ${alerta.hora}<br> MENSAJE: ${alerta.message}`
+        ul.pagination.justify-content-end.danger
+          if contextAlertas
+            if contextAlertas.num_pages > 1
+              if contextAlertas.num_page != 1 
+                li.page-item
+                  a.page-link(href=`/alertas/page/${contextAlertas.num_page-1}`)
+                    <span aria-hidden="true">&laquo;</span>
+              - let index = 1; 
+              - for (let index=1; index<=contextAlertas.num_pages; index++)
+                if contextAlertas.num_page === index
+                  li.page-item.active
+                    a.page-link(href="#")= index
+                else
+                  li.page-item
+                    a.page-link(href=`/alertas/page/${index}`)= index
+              if contextAlertas.num_page != contextAlertas.num_pages
+                li.page-item
+                  a.page-link(href=`/alertas/page/${index+1}`)
+                    <span aria-hidden="true">&raquo;</span>
+
         audio#audio
           source(type='audio/mp3' src='./assets/mp3/alert.mp3')
         // Button trigger modal

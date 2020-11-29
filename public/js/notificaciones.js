@@ -31,10 +31,13 @@ function addAlert(json) {
   let alert = `
     <div class="col-ms-6 col-md-6 col-lg-6">
         <div class="alert alert-warning" role="alert" style="background-color: ${json.alert == "retraso" ? "#ffe79b" : ""
-    }${json.alert == "robo" ? "#ffa6ae" : ""} ; border-color: ${json.alert == "retraso" ? "#ffe79b" : ""
+    }${json.alert == "robo" ? "#ffa6ae; padding-bottom: 35px;" : ""}  border-color: ${json.alert == "retraso" ? "#ffe79b" : ""
     };">
             <strong>Bus: ${json.bus} <br>TIPO: ${json.alert} <br>FECHA: ${json.fecha
-    } <br>HORA: ${json.hora}</strong>
+    } <br>HORA: ${json.hora}
+    ${json.alert == "robo" ? `` : `<br> MENSAJE: ${json.message}`}
+      
+    </strong>
         </div>
     </div>
     `;

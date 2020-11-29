@@ -71,9 +71,9 @@ exports.visto = function(req,res) {
     if( id && visto){
         alertaModel.update({_id:id},{visto:visto},(err,alertUpdate) => {
             if (!alertUpdate) {
-                
+                res.status(400).json({status:"fail"});
             } else if(err){
-                
+                res.status(400).json({status:"fail"});
             }else{
                 res.status(200).json({status:"oks"});
             }

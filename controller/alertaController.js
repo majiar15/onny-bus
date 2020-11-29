@@ -16,13 +16,13 @@ exports.home = function (req,res) {
     .skip(skip_page)
     .limit(10)
     .lean()
+    .sort({_id: -1})
     .exec((err, alertas) =>{
         contextAlertas = {
             alertas : alertas,
             num_page: num_page,
             num_pages: num_pages
         }
-
         if(alertas.length === 0){
             res.render('./alertas/alertas', {error: "no hay alertas registrados", contextAlertas} );
         }else if(err){
