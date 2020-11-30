@@ -1,5 +1,6 @@
 const conductorModel = require('../../model/conductor');
 const asignarRutaModel= require('../../model/asignarRuta');
+const rutaModel= require('../../model/ruta');
 const busModel= require('../../model/bus');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -19,7 +20,7 @@ exports.login = function(req, res) {
                 if (bcrypt.compareSync(password, conductor.password)) {
                     const token = jwt.sign({ _id: conductor._id }, req.app.get('secretKey'), { expiresIn: "8h" });
                     
-                    asignarRutaModel.find({conductor: conductor._id, activo: true}, "conductor bus", (err, document)=>{
+                    asignarRutaModel.find({conductor: conductor._id, activo: true}, "conductor bus ruta", (err, document)=>{
                         let objetRequest = [];
                         
                         if(document){
@@ -39,9 +40,10 @@ exports.login = function(req, res) {
                             
                             busModel.populate(objetRequest, { select:"placa",path: 'bus'} , function(err, document) {
                                 conductorModel.populate(document, {path:"conductor"}, (err, doc)=>{
-                                    console.log(doc);
-                                    
-                                    res.status(200).json({ status: 'login correcto', data: { 'conductor': conductor,bus:doc[0].bus.placa, 'token': token } });
+                                    rutaModel.populate(doc, {path:"ruta"}, (err, doc)=>{
+                                        console.log(doc);
+                                        res.status(200).json({ status: 'login correcto', data: { 'conductor': conductor,bus:doc[0].bus.placa,ruta:doc[0].ruta.nombre, 'token': token } });
+                                    });
                                 });
                             });
                         }else{
