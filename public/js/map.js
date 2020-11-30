@@ -1,5 +1,3 @@
-
-
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFqaWFyIiwiYSI6ImNrYWZybXh5ZTAxeDYyeHB4eWIyZWFlZTQifQ.tpO4S2b6RQvsgRCB08joCQ';
 let map = new mapboxgl.Map({
     container: 'map',
@@ -8,7 +6,6 @@ let map = new mapboxgl.Map({
     zoom: 13
 });
 let markerArray = []
-let marker = new mapboxgl.Marker();
 setInterval(() => {
     
     fetch('https://onny-bus.herokuapp.com/api/rutas/asignar/getall',{
@@ -19,36 +16,22 @@ setInterval(() => {
     })
     .then(response => response.json())
     .then(data => {
+        console.log(data);
         for (let i = 0; i < data.data.length; i++) {
             const element = data.data[i];
-            
-            marker 
-                .setLngLat([element.conductor.longitud,element.conductor.latitud])
-                .addTo(map);
-            markerArray[i] = marker
+            if(markerArray.length === data.data.length){
+                markerArray[i].setLngLat([element.conductor.longitud,element.conductor.latitud]);
+            }else{
+                let marker = new mapboxgl.Marker()
+                    .setLngLat([element.conductor.longitud,element.conductor.latitud])
+                    .addTo(map);
+                markerArray.push(marker)
+            }
         }
-        console.log(markerArray)
+        
     });
 }, 1000);
 
-// var marker = new mapboxgl.Marker()
-//     .setLngLat([-74.781685, 10.936199])
-//     .addTo(map);
-// marker = new mapboxgl.Marker()
-//     .setLngLat([-74.787467, 10.927491])
-//     .addTo(map);
-// marker = new mapboxgl.Marker()
-//     .setLngLat([-74.799795, 10.924823])
-//     .addTo(map);
-// marker = new mapboxgl.Marker()
-//     .setLngLat([-74.796387, 10.910769])
-//     .addTo(map);
-// marker = new mapboxgl.Marker()
-//     .setLngLat([-74.784827, 10.946970])
-//     .addTo(map);
-// marker = new mapboxgl.Marker()
-//     .setLngLat([-74.795706, 10.946159])
-//     .addTo(map);
 map.on('load', function () {
     map.addSource('route', {
         'type': 'geojson',
