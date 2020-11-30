@@ -7,11 +7,11 @@ let map = new mapboxgl.Map({
     center: [-74.796387, 10.910769],
     zoom: 13
 });
-// let markerArray = []
+let markerArray = []
 let marker = new mapboxgl.Marker();
 setInterval(() => {
     
-    fetch('http://localhost:3000/api/rutas/asignar/getall',{
+    fetch('https://onny-bus.herokuapp.com/api/rutas/asignar/getall',{
         method:'GET',
         headers:{
             'Content-Type': 'application/json'
@@ -25,9 +25,9 @@ setInterval(() => {
             marker 
                 .setLngLat([element.conductor.longitud,element.conductor.latitud])
                 .addTo(map);
-       
+            markerArray[i] = marker
         }
-        // console.log(markerArray)
+        console.log(markerArray)
     });
 }, 1000);
 
