@@ -6,13 +6,14 @@ exports.getConductorsByRoute = function(req,res) {
     const idRoute = req.params.id;
     let hoy = moment(new Date());
     let objetRequest = [];
-    if(idRoute){
-        asignarRutaModel.find({ruta: idRoute, activo: true}, "_id conductor",(err,document)=>{
+    if(idRoute ){
+        asignarRutaModel.find({ruta: idRoute, activo: true}, "conductor",(err,document)=>{
             // seleccionando documentos que se encuentran dentro de la fecha
-            if(document.length == 0){
+            console.log(err);
+            if(err){
+                res.status(400).json({status: "peticion incorrecta", message:"error al realizar la peticion : "+err})            
+            }else if(document.length == 0){
                 res.status(400).json({status: "peticion incorrecta", message:"no se encontraron asignamiento de rutas al id: "+idRoute})
-            }else if(err){
-                res.status(400).json({status: "peticion incorrecta", message:"error al realizar la peticion : "+err})
             }else{
                 document.forEach((doc)=>{
                     
@@ -24,7 +25,7 @@ exports.getConductorsByRoute = function(req,res) {
                     
                 });
                 if(objetRequest.length != 0){               
-                        conductorModel.populate(objetRequest, { select:"nombres apellidos latitud longitud",path: 'conductor' }, function (err, document) {
+                        conductorModel.populate(objetRequest, { select:"latitud longitud",path: 'conductor' }, function (err, document) {
                             res.status(200).json({status: "peticion correcta", data:document});
                         });
                 }else{
@@ -33,6 +34,6 @@ exports.getConductorsByRoute = function(req,res) {
             } 
         });
     }else{
-        res.status(400).json({message:"no se envio el id del conductor como parametro"})
+        res.status(400).json({message:"no se envio el id del conductor como parametro o no es de tipo numerico"})
     }
 }
