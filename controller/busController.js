@@ -7,13 +7,13 @@ exports.register = function(req, res) {
         busModel.create({ placa, nSerie, activo:true}, (err, newBus) => {
                 if (err) {
                     console.log(err);
-                    res.render('./buses/registroBuses', {error: 'la placa debe tener 6 caracteres y el numero de serie 3 digitos', type: "registro"});
+                    res.render('./buses/registroBuses', {error: 'la placa debe tener 6 caracteres y el numero de serie 3 digitos', type: "registro", rol:req.session.userType});
                 } else {
-                    res.render('./buses/registroBuses', {message: 'conductor creado correctamente', type: "registro"});
+                    res.render('./buses/registroBuses', {message: 'conductor creado correctamente', type: "registro", rol:req.session.userType});
                 };
             });
     } else {
-        res.render('./buses/registroBuses', {error: 'no se enviaron los parametros necesarios(placa, numero de serie) o no son numeros ', type: "registro"});
+        res.render('./buses/registroBuses', {error: 'no se enviaron los parametros necesarios(placa, numero de serie) o no son numeros ', type: "registro", rol:req.session.userType});
     }
 
 }
@@ -23,9 +23,9 @@ exports.update = function(req, res) {
     if( placa && nSerie){
         busModel.findOne({_id: id},(err, bus)=>{
             if (!bus) {
-                res.render('./buses/registroBuses', { type:"update"});
+                res.render('./buses/registroBuses', { type:"update", rol:req.session.userType});
             } else if (err) {
-                res.render('./buses/registroBuses', { error:err , type: "update" });
+                res.render('./buses/registroBuses', { error:err , type: "update" , rol:req.session.userType});
             } else {    
                
                 if(placa.length < 7){
@@ -35,25 +35,25 @@ exports.update = function(req, res) {
                 bus.nSerie = nSerie;
                 
                 bus.save();
-                res.render('./buses/registroBuses', { bus,message: "guardado correcto", type : "update" });
+                res.render('./buses/registroBuses', { bus,message: "guardado correcto", type : "update" , rol:req.session.userType});
             }
     
         });
         
     }
     else{
-        res.render('./buses/registroBuses', { error: "no se enviaron los datos correctos", type : "update" });
+        res.render('./buses/registroBuses', { error: "no se enviaron los datos correctos", type : "update" , rol:req.session.userType});
     }
 }
 exports.updateGet = function(req,res) {
     const {id} = req.params;
     busModel.findOne({_id: id}, function(err, bus){
         if (!bus) {
-            res.render('./buses/registroBuses', { type:"update"});
+            res.render('./buses/registroBuses', { type:"update", rol:req.session.userType});
         } else if (err) {
-            res.render('./buses/registroBuses', { err , type: "update" });
+            res.render('./buses/registroBuses', { err , type: "update" , rol:req.session.userType});
         } else {    
-            res.render('./buses/registroBuses', { bus, type : "update" });
+            res.render('./buses/registroBuses', { bus, type : "update" , rol:req.session.userType});
         }
     });
 }
@@ -78,13 +78,13 @@ exports.home = function (req,res) {
             num_pages: num_pages
         }
         if(bus.length === 0){
-            res.render('./buses/buses', {error: "no hay buses registrados", contextBus});
+            res.render('./buses/buses', {error: "no hay buses registrados", contextBus, rol:req.session.userType});
         }else if(err){
             
-            res.render('./buses/buses', { message: err });
+            res.render('./buses/buses', { message: err , rol:req.session.userType});
         }else{
             
-            res.render('./buses/buses', contextBus);
+            res.render('./buses/buses', {contextBus, rol:req.session.userType});
         }
     });
 }

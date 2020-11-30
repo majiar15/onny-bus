@@ -16,4 +16,5 @@ router.get('/asignar/update/:id', asignarRutaController.updateGet );
 router.post('/asignar/update/', asignarRutaController.update)
 
 router.get('/asignar/remove/:id', asignarRutaController.remove);
+
 module.exports = router;

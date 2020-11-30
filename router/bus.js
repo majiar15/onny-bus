@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const busController = require('../controller/busController')
-router.get('/registro', (req, res) => res.render('./buses/registroBuses', {type:'registro'}));
+router.get('/registro', (req, res) => res.render('./buses/registroBuses', {type:'registro', rol:req.session.userType}));
 router.post('/registro', busController.register );
 
 router.get('/page/:num_page',busController.home);

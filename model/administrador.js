@@ -8,7 +8,7 @@ let administradorSchema = new Schema({
         trim:true
     },
     nombres: {
-        type:Number,
+        type: String,
         trim:true
     },
     apellidos: {
@@ -26,14 +26,17 @@ let administradorSchema = new Schema({
     rol: {
         type: String,
         trim:true    
-    }
+    },
+    activo: Boolean
 });
 administradorSchema.pre('save', function(next) {
+    
     if (this.isModified("password")) {
         this.password = bcrypt.hashSync(this.password, 10);
     }
     next();
 });
+
 
 
 module.exports = mongoose.model('administrador', administradorSchema);

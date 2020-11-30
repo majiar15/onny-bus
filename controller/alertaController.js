@@ -24,13 +24,13 @@ exports.home = function (req,res) {
             num_pages: num_pages
         }
         if(alertas.length === 0){
-            res.render('./alertas/alertas', {error: "no hay alertas registrados", contextAlertas} );
+            res.render('./alertas/alertas', {error: "no hay alertas registrados", contextAlertas, rol:req.session.userType} );
         }else if(err){
             
-            res.render('./alertas/alertas', { message: err });
+            res.render('./alertas/alertas', { message: err , rol:req.session.userType});
         }else{
             
-            res.render('./alertas/alertas', contextAlertas);
+            res.render('./alertas/alertas', {contextAlertas, rol:req.session.userType});
         }
     });
 }

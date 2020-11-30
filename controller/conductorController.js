@@ -12,17 +12,17 @@ exports.register = function(req, res) {
                 activo = true;
             conductorModel.create({ cc, nombres, apellidos, email, password, activo }, (err, newUser) => {
                 if (err) {
-                    res.render('./conductor/registroConductores', {error: 'ya hay alguien con la misma cedula', type: "registro"});
+                    res.render('./conductor/registroConductores', {error: 'ya hay alguien con la misma cedula', type: "registro", rol:req.session.userType});
                 } else {
-                    res.render('./conductor/registroConductores', {message: 'conductor creado correctamente', type: "registro"});
+                    res.render('./conductor/registroConductores', {message: 'conductor creado correctamente', type: "registro", rol:req.session.userType});
                 };
             });
         } else {
-            res.render('./conductor/registroConductores', {error: 'las contraseñas no coincidenr', type: "registro"});
+            res.render('./conductor/registroConductores', {error: 'las contraseñas no coincidenr', type: "registro", rol:req.session.userType});
         }
 
     } else {
-        res.render('./conductor/registroConductores', {error: 'no se enviaron los parametros necesarios,los cuales son cc,nombre,apellidos,email.password,confirmpassword', type: "registro"});
+        res.render('./conductor/registroConductores', {error: 'no se enviaron los parametros necesarios,los cuales son cc,nombre,apellidos,email.password,confirmpassword', type: "registro", rol:req.session.userType});
     }
 
 }
@@ -32,9 +32,9 @@ exports.update = function(req, res) {
     if(cc, id , nombres, apellidos, email, password){
         conductorModel.findOne({_id:id},(err, conductor)=>{
             if (!conductor) {
-                res.render('./conductor/registroConductores', { type:"update"});
+                res.render('./conductor/registroConductores', { type:"update", rol:req.session.userType});
             } else if (err) {
-                res.render('./conductor/registroConductores', { err , type: "update" });
+                res.render('./conductor/registroConductores', { err , type: "update" , rol:req.session.userType});
             } else {    
                 conductor.nombres = nombres;
                 conductor.apellidos = apellidos;
@@ -44,8 +44,8 @@ exports.update = function(req, res) {
                     conductor.password = password;
                 }
                 conductor.save();
-                conductor.password = "password";
-                res.render('./conductor/registroConductores', { conductor,message: "conductor modificado correctamente", type : "update" });
+                
+                res.render('./conductor/registroConductores', { conductor,message: "conductor modificado correctamente", type : "update" , rol:req.session.userType});
             }
     
         });
@@ -59,11 +59,11 @@ exports.updateGet = function(req,res) {
     const {id} = req.params;
     conductorModel.findOne({_id: id}, function(err, conductor){
         if (!conductor) {
-            res.render('./conductor/registroConductores', { type:"update"});
+            res.render('./conductor/registroConductores', { type:"update", rol:req.session.userType});
         } else if (err) {
-            res.render('./conductor/registroConductores', { err , type: "update" });
+            res.render('./conductor/registroConductores', { err , type: "update" , rol:req.session.userType});
         } else {    
-            res.render('./conductor/registroConductores', { conductor, type : "update" });
+            res.render('./conductor/registroConductores', { conductor, type : "update" , rol:req.session.userType});
         }
     });
 }
@@ -89,13 +89,13 @@ exports.home = function (req,res) {
         }
 
         if(conductores.length === 0){
-            res.render('./conductor/conductores', {error: "no hay conductores registrados", contextConductor} );
+            res.render('./conductor/conductores', {error: "no hay conductores registrados", contextConductor,  rol:req.session.userType} );
         }else if(err){
             
-            res.render('./conductor/conductores', { message: err });
+            res.render('./conductor/conductores', { message: err , rol:req.session.userType});
         }else{
             
-            res.render('./conductor/conductores', contextConductor);
+            res.render('./conductor/conductores', {contextConductor, rol:req.session.userType});
         }
     });
 }

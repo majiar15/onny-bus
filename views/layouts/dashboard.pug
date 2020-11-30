@@ -2,6 +2,7 @@ doctype html
 head
   meta(charset='utf-8')
   meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(lang="es")
   meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
   meta(name='description' content='')
   meta(name='author' content='')
@@ -96,11 +97,20 @@ body.sb-nav-fixed
               .sb-nav-link-icon
                 i.fas.fa-exclamation-triangle(style='color: #3b91ec; font-size: 20px;')
               |          Alertas
-            //- if rol == "admin"
-
-    
-    
-        
+            if rol == "admin"
+              a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#administradorNav' aria-expanded='false' aria-controls='busesNav')
+                .sb-nav-link-icon
+                  i.fas.fa-user(style='color: #3b91ec; font-size: 20px;')
+                |                             Administrador
+                .sb-sidenav-collapse-arrow
+                  i.fas.fa-angle-down(style=' color:#3b91ec; font-size: 20px;')
+              #administradorNav.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordion')
+                nav.sb-sidenav-menu-nested.nav
+                  a.nav-link(href='/administrador/page/1') Ver administradores
+                  a.nav-link(href='/administrador/registro') Registrar administrador
+              
+              
+            
     block main
     button#buttonexampleModalCenter.d-none(type='button' data-toggle='modal' data-target='#exampleModalCenter')
     script(src='https://code.jquery.com/jquery-3.4.1.min.js' crossorigin='anonymous')

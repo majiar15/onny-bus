@@ -4,7 +4,7 @@ const conductorController = require('../controller/conductorController');
 
 
 router.get('/page/:num_page',conductorController.home);
-router.get('/registro', (req,res) =>{res.render('./conductor/registroConductores', { type: 'registro'})});
+router.get('/registro', (req,res) =>{res.render('./conductor/registroConductores', { type: 'registro', rol:req.session.userType})});
 router.post('/registro', conductorController.register);
 
 router.get('/update/:id', conductorController.updateGet)

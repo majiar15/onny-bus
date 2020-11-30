@@ -5,6 +5,7 @@ const busModel = require('../model/bus');
 const moment = require('moment');
 
 exports.home = function (req, res) {
+    
     let { num_page } = req.params;
     num_page = parseInt(num_page)
     skip_page = (num_page - 1) * 10;
@@ -28,13 +29,13 @@ exports.home = function (req, res) {
                             num_pages: num_pages
                         }
                         if(document.length === 0){
-                            res.render('./rutas/verRutasAsignadas', {error: "no hay rutas Asignadas", context});
+                            res.render('./rutas/verRutasAsignadas', {error: "no hay rutas Asignadas", context, rol:req.session.userType});
                         }else if(err){
 
-                            res.render('./rutas/verRutasAsignadas', { message: err });
+                            res.render('./rutas/verRutasAsignadas', { message: err , rol:req.session.userType});
                         }else{
 
-                            res.render('./rutas/verRutasAsignadas', context);
+                            res.render('./rutas/verRutasAsignadas', {context , rol:req.session.userType});
                         }
                     });
                 })
@@ -49,7 +50,7 @@ exports.home = function (req, res) {
 
 exports.asignarGet = function (req, res) {
     // encontrar todos los conductores activos 
-    findBusConductorAndRoute(res);
+    findBusConductorAndRoute(req, res);
 }
 exports.asignar = function (req, res) {
     const { ruta, conductor, bus, fechaInicio, fechaFin } = req.body;
@@ -58,16 +59,16 @@ exports.asignar = function (req, res) {
         
         asignarRutaModel.create({ conductor, ruta, bus, fechaInicio, fechaFin, activo: true }, function (err, asignarRuta) {
             if (!asignarRuta) {
-                findBusConductorAndRoute(res, false, "ya esta un bus asignardo a esa ruta durante esa fecha");
+                findBusConductorAndRoute(req, res, false, "ya esta un bus asignardo a esa ruta durante esa fecha");
             } else if (err) {
-                findBusConductorAndRoute(res, false, "no se pudo asignar la ruta");
+                findBusConductorAndRoute(req, res, false, "no se pudo asignar la ruta");
             } else {
-                findBusConductorAndRoute(res, "ruta asignada");
+                findBusConductorAndRoute(req, res, "ruta asignada");
             }
         });
 
     } else {
-        findBusConductorAndRoute(res, false, "no ha enviado los datos necesarios");
+        findBusConductorAndRoute(req, res, false, "no ha enviado los datos necesarios");
     }
 }
 exports.updateGet = function(req, res) {
@@ -76,9 +77,9 @@ exports.updateGet = function(req, res) {
     asignarRutaModel.find({activo: true}, function(err, asignarRuta){
         if (!asignarRuta) {
             res.render('./rutas/asignarRuta', { type:"update"});
-            findBusConductorAndRoute(res, false,"no se puedo encontrar la ruta asignada a modificar", elegido, "update");
+            findBusConductorAndRoute(req, res, false,"no se puedo encontrar la ruta asignada a modificar", elegido, "update");
         } else if (err) {
-            findBusConductorAndRoute(res, false,false, elegido, "update");
+            findBusConductorAndRoute(req, res, false,false, elegido, "update");
         } else {
             asignarRuta.forEach((AR)=>{
                 if(AR._id == id){
@@ -86,7 +87,7 @@ exports.updateGet = function(req, res) {
                     elegido = AR;
                 }
             });
-            findBusConductorAndRoute(res, false,false, elegido, "update");
+            findBusConductorAndRoute(req, res, false,false, elegido, "update");
         }
     });
 }
@@ -96,16 +97,16 @@ exports.update = function(req, res) {
     if (id, ruta, conductor, bus, fechaInicio, fechaFin) {
         asignarRutaModel.findOneAndUpdate({_id:id}, { ruta:ruta, conductor:conductor, bus:bus, fechaInicio:fechaInicio, fechaFin:fechaFin}, {new:true}, (err,asignarRuta)=>{
             if (!asignarRuta) {
-                findBusConductorAndRoute(res, false, "ya esta un bus asignardo a esa ruta durante esa fecha", asignarRuta, "update");
+                findBusConductorAndRoute(req,res, false, "ya esta un bus asignardo a esa ruta durante esa fecha", asignarRuta, "update");
             } else if (err) {
-                findBusConductorAndRoute(res, false, "no se pudo asignar la ruta", asignarRuta, "update");
+                findBusConductorAndRoute(req,res, false, "no se pudo asignar la ruta", asignarRuta, "update");
             } else {    
-                findBusConductorAndRoute(res, "modificacion de ruta asignada correcta",false, asignarRuta, "update");
+                findBusConductorAndRoute(req,res, "modificacion de ruta asignada correcta",false, asignarRuta, "update");
             }
         })
         
     } else {
-        findBusConductorAndRoute(res, false, "no ha enviado los datos necesarios", asignarRuta, "update");
+        findBusConductorAndRoute(req,res, false, "no ha enviado los datos necesarios", asignarRuta, "update");
     }
 }
 
@@ -125,7 +126,7 @@ exports.remove = function(req,res) {
 }
 
 
-function findBusConductorAndRoute(res, message, error, elegido = false, type="registro") {
+function findBusConductorAndRoute(req,res, message, error, elegido = false, type="registro") {
     let url;
     if(type == "registro"){
         url ="/ruta/asignar";
@@ -134,31 +135,31 @@ function findBusConductorAndRoute(res, message, error, elegido = false, type="re
     }
     conductorModel.find({ activo: true }, (err, conductores) => {
         if (conductores.length === 0) {
-            res.render('./rutas/asignarRuta', { type,error: "no hay conductores registrados", url });
+            res.render('./rutas/asignarRuta', { type,error: "no hay conductores registrados", url , rol:req.session.userType});
 
         } else if (err) {
-            res.render('./rutas/asignarRuta', { type, error: "error al encontrar conductores" , url});
+            res.render('./rutas/asignarRuta', { type, error: "error al encontrar conductores" , url, rol:req.session.userType});
         } else {
             //encontrar todas las rutas activas
             rutaModel.find( (err, rutas) => {
                 if (rutas.length == 0) {
-                    res.render('./rutas/asignarRuta', { type, error: "no hay rutas registrados" , url});
+                    res.render('./rutas/asignarRuta', { type, error: "no hay rutas registrados" , url, rol:req.session.userType});
                 } else if (err) {
-                    res.render('./rutas/asignarRuta', { type, error: "error al encontrar las rutas" , url});
+                    res.render('./rutas/asignarRuta', { type, error: "error al encontrar las rutas" , url, rol:req.session.userType});
                 } else {
                     // encontrar todos los buses activos 
                     busModel.find({ activo: true }, (err, buses) => {
                         if (buses.length == 0) {
-                            res.render('./rutas/asignarRuta', { type, error: "no hay buses registrados" , url});
+                            res.render('./rutas/asignarRuta', { type, error: "no hay buses registrados" , url, rol:req.session.userType});
                         } else if (err) {
-                            res.render('./rutas/asignarRuta', { type, error: "error al encontrar los buses" , url});
+                            res.render('./rutas/asignarRuta', { type, error: "error al encontrar los buses" , url, rol:req.session.userType});
                         } else {
                             if (message) {
-                                res.render('./rutas/asignarRuta', {type, conductores, rutas, buses, message,elegido , url});
+                                res.render('./rutas/asignarRuta', {type, conductores, rutas, buses, message,elegido , url, rol:req.session.userType});
                             } else if (error) {
-                                res.render('./rutas/asignarRuta', {type, conductores, rutas, buses, error,elegido , url});
+                                res.render('./rutas/asignarRuta', {type, conductores, rutas, buses, error,elegido , url, rol:req.session.userType});
                             } else {
-                                res.render('./rutas/asignarRuta', {type, conductores, rutas, buses,elegido , url});
+                                res.render('./rutas/asignarRuta', {type, conductores, rutas, buses,elegido , url, rol:req.session.userType});
                             }
                         }
                     });

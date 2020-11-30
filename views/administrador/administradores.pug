@@ -6,7 +6,7 @@ block main
     main
       .container
         h1.mt-4
-          | Conductores
+          | administradores
  
         // quiero cargar las cosas aqui
         if message
@@ -22,16 +22,16 @@ block main
               th(scope='col') Email
               th(scope='col') Acciones
           tbody
-            if contextAdministrador
-              each administrador in contextAdministrador.administradores
+            if contextadministrador
+              each administrador in contextadministrador.administradores
                 tr
                   th(scope='row')= administrador.cc
                   td= administrador.nombres
                   td= administrador.apellidos
                   td= administrador.email
                   td
-                    a(href=`/administrador/update/${administradores._id}`).btn.btn-warning Update
-                    a(href=`/administrador/remove/${administradores._id}`).btn.btn-danger remove
+                    a(href=`/administrador/update/${administrador._id}`).btn.btn-warning Update
+                    a(href=`/administrador/remove/${administrador._id}`).btn.btn-danger remove
         ul.pagination.justify-content-end.danger
           if contextAdministrador
             if contextAdministrador.num_pages > 1
