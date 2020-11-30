@@ -20,48 +20,48 @@ block main
               .col-md-6.col-lg-7
                 label(for='nombre') Nombre
                 if conductor
-                  input#nombre.form-control(type='text' name='nombres' value=`${conductor.nombres}`)
+                  input#nombre.form-control(type='text' name='nombres' value=`${conductor.nombres}` required)
                 else
-                  input#nombre.form-control(type='text' name='nombres')
+                  input#nombre.form-control(type='text' name='nombres' required)
           .form-group
             .row
               .col-md-6.col-lg-7
                 label(for='apellido') Apellidos
                 if conductor
-                  input#nombre.form-control(type='text' name='apellidos' value=`${conductor.apellidos}`)
+                  input#nombre.form-control(type='text' name='apellidos' value=`${conductor.apellidos}` required)
                 else
-                  input#apellido.form-control(type='text' name='apellidos')
+                  input#apellido.form-control(type='text' name='apellidos' required)
           if conductor
-            input#nombre.form-control(type='hidden' name='cc' value=`${conductor.cc}`)
-            input#nombre.form-control(type='hidden' name='id' value=`${conductor._id}`)
+            input#nombre.form-control(type='hidden' minlength="7" name='cc' value=`${conductor.cc}` required)
+            input#nombre.form-control(type='hidden' name='id' value=`${conductor._id}` required)
           else
             .form-group
               .row
                 .col-md-6.col-lg-7
                   label(for='cc') CC
-                  input#email.form-control(type='number' name='cc')
+                  input#email.form-control(type='number' minlength="7" name='cc' required)
           .form-group
             .row
               .col-md-6.col-lg-7
                 label(for='email') Email
                 if conductor
-                  input#nombre.form-control(type='email' name='email' value=`${conductor.email}`)
+                  input#nombre.form-control(type='email' name='email' value=`${conductor.email}` required)
                 else
-                  input#email.form-control(type='email' name='email')
+                  input#email.form-control(type='email' name='email' required)
           .form-group
             .row
               .col-md-6.col-lg-7
                 label(for='password') Contrase&ntilde;a
                 if conductor
-                  input#nombre.form-control(type='password' name='password' value=`${conductor.password}`)
+                  input#nombre.form-control(type='password' name='password' value=`${conductor.password}` required)
                 else
-                  input#password.form-control(type='password' name='password')
+                  input#password.form-control(type='password'  name='password' required)
           if type !='update'
             .form-group
               .row
                 .col-md-6.col-lg-7
                   label(for='confirmar_pass') Confirmar contrase&ntilde;a
-                  input#confirmar_pass.form-control(type='password' name='confirmpassword')
+                  input#confirmar_pass.form-control(type='password' name='confirmpassword' required)
           input.btn.btn-primary.mb-4(type='submit' value='Enviar')
         audio#audio
           source(type='audio/mp3' src='../../assets/mp3/alert.mp3')      

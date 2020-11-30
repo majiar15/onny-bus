@@ -10,7 +10,7 @@ exports.register = function(req, res) {
                 email = req.body.email,
                 password = req.body.password;
                 activo = true;
-            conductorModel.create({ cc, nombres, apellidos, email, password, activo }, (err, newUser) => {
+            conductorModel.create({ cc, nombres, apellidos, email, password, latitud: 10.882828369488793 ,longitud: -74.76955550729454,activo }, (err, newUser) => {
                 if (err) {
                     res.render('./conductor/registroConductores', {error: 'ya hay alguien con la misma cedula', type: "registro", rol:req.session.userType});
                 } else {
