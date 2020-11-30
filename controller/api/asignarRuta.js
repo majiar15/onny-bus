@@ -47,7 +47,7 @@ exports.getAll = function(req,res) {
             if(err){
                 res.status(400).json({status: "peticion incorrecta", message:"error al realizar la peticion : "+err})            
             }else if(document.length == 0){
-                res.status(400).json({status: "peticion incorrecta", message:"no se encontraron asignamiento de rutas al id: "+idRoute})
+                res.status(400).json({status: "peticion incorrecta", message:"no se encontraron asignamiento en ninguna ruta"})
             }else{
                 document.forEach((doc)=>{
                     

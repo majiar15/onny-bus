@@ -41,7 +41,7 @@ exports.login = function(req, res) {
                             busModel.populate(objetRequest, { select:"placa",path: 'bus'} , function(err, document) {
                                 conductorModel.populate(document, {path:"conductor"}, (err, doc)=>{
                                     rutaModel.populate(doc, {path:"ruta"}, (err, doc)=>{
-                                        console.log(doc);
+                                        
                                         res.status(200).json({ status: 'login correcto', data: { 'conductor': conductor,bus:doc[0].bus.placa,ruta:doc[0].ruta.nombre, 'token': token } });
                                     });
                                 });
@@ -63,8 +63,9 @@ exports.updateLatLong = function(req,res) {
     let id = req.body.id;
     let latitud = req.body.latitud;
     let longitud = req.body.longitud;
+    console.log(id);
     if(id, latitud, longitud){
-        conductorModel.findOneAndUpdate(id, {latitud:latitud, longitud:longitud}, {new:true}, (err, conductor)=>{
+        conductorModel.findOneAndUpdate({_id:id}, {latitud:latitud, longitud:longitud}, {new:true}, (err, conductor)=>{
     
             if(!conductor){
 
@@ -73,7 +74,7 @@ exports.updateLatLong = function(req,res) {
             else if(err){
                 res.status(400).json({status: "peticion incorrecta", message: "error al realizar la actualizacion"+err});
             }else{
-                res.status(200).json({status: "peticion correcta", message:"actualizacion de ubicacion correcta"});
+                res.status(200).json({status: "peticion correcta", conductor,message:"actualizacion de ubicacion correcta"});
             }
         });
     }else{

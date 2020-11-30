@@ -11,9 +11,7 @@ function vefifyLoginConductor(req, res, next) {
     jwt.verify(req.headers['x-access-token'], process.env.SECRET_KEY, function(err, decoded) {
         if (err) {
             res.json({ status: 'error', message: err.message, data: null });
-        } else {
-            req.body.id = decoded._id;
-            console.log('conductor logueado', decoded._id);
+        } else {            
             next();
         }
     });

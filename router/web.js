@@ -27,7 +27,7 @@ function protectRoutesAdmin(req, res, next) {
     }
 }
 
-router.get('/', redirectLogin, (req, res) =>{ res.render('index', {rol:req.session.userType})});
+router.get('/',  (req, res) =>{ res.render('index', {rol:req.session.userType})});
 router.get('/login', redirectHome, (req, res) => res.render('login', {rol:req.session.userType}));
 
 
