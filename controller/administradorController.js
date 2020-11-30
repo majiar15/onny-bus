@@ -128,3 +128,20 @@ exports.update = function(req,res) {
         res.render('./conductor/registroConductores', { error: "no se enviaron los datos correctos", type : "update" });
     }
 }
+
+exports.remove = function(req,res) {
+    const id = req.params.id;
+    console.log(id);
+    if(id){
+        administradorModel.update({ _id: id },{activo : false},(err,administrador)=>{
+     
+            if (!administrador) {
+                res.redirect('/administrador/page/1');
+            } else if (err) {
+                res.redirect('/administrador/page/1');
+            } else {    
+                res.redirect('/administrador/page/1');
+            }
+        })
+    }
+}

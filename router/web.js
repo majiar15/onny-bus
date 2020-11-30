@@ -36,16 +36,16 @@ router.post('/login', redirectHome, administradorController.login);
 
 router.get('/logout', administradorController.logout);
 
-router.get('/administrador/registro',  protectRoutesAdmin, (req, res) => res.render('./administrador/registerAdministrador',{type: "registro", rol: req.session.userType}))
-router.post('/administrador/registro', administradorController.register);
+router.get('/administrador/registro',redirectLogin,  protectRoutesAdmin, (req, res) => res.render('./administrador/registerAdministrador',{type: "registro", rol: req.session.userType}))
+router.post('/administrador/registro',redirectLogin,protectRoutesAdmin, administradorController.register);
 
 
-router.get('/administrador/page/:num_page',administradorController.home);
+router.get('/administrador/page/:num_page',redirectLogin,protectRoutesAdmin,administradorController.home);
 
-router.get('/administrador/update/:id', administradorController.updateGet)
-router.post('/administrador/update', administradorController.update)
+router.get('/administrador/update/:id',redirectLogin,protectRoutesAdmin, administradorController.updateGet)
+router.post('/administrador/update', redirectLogin,protectRoutesAdmin, administradorController.update)
 
-// router.get('/remove/:id', administradorController.remove);
+router.get('/administrador/remove/:id', administradorController.remove);
 
 
 module.exports = router;
