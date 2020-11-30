@@ -1,14 +1,16 @@
 const conductorModel = require('../../model/conductor');
+const asignarRutaModel= require('../../model/asignarRuta');
+const busModel= require('../../model/bus');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
+const moment = require('moment');
 
 exports.login = function(req, res) {
     const { cc, password } = req.body
 
     if (cc && password) {
 
-        conductorModel.findOne({ 'cc': cc }, (err, conductor) => {
+        conductorModel.findOne({ 'cc': cc, activo:true }, (err, conductor) => {
             if (!conductor) {
                 res.status(400).json({status: "login incorrecto", data: 'no se encontro el conductor con cc :'+cc});
             } else if (err) {
@@ -16,7 +18,37 @@ exports.login = function(req, res) {
             } else {
                 if (bcrypt.compareSync(password, conductor.password)) {
                     const token = jwt.sign({ _id: conductor._id }, req.app.get('secretKey'), { expiresIn: "8h" });
-                    res.status(200).json({ status: 'login correcto', data: { 'conductor': conductor, 'token': token } });
+                    
+                    asignarRutaModel.find({conductor: conductor._id, activo: true}, "conductor bus", (err, document)=>{
+                        let objetRequest = [];
+                        
+                        if(document){
+
+            
+                            document.forEach((doc)=>{
+                    
+                                let CountDaysfechaInicio = moment(doc.fechaInicio).diff(moment(new Date()), 'day')
+                                let CountDaysfechaFin = moment(doc.fechaFin).diff(moment(new Date()), 'day')
+                                if(CountDaysfechaInicio <= 0 && CountDaysfechaFin >= 0){
+                                    objetRequest.push(doc);
+                                }
+                                
+                            });
+                        }
+                        if(objetRequest.length != 0){               
+                            
+                            busModel.populate(objetRequest, { select:"placa",path: 'bus'} , function(err, document) {
+                                conductorModel.populate(document, {path:"conductor"}, (err, doc)=>{
+                                    console.log(doc);
+                                    
+                                    res.status(200).json({ status: 'login correcto', data: { 'conductor': conductor,bus:doc[0].bus.placa, 'token': token } });
+                                });
+                            });
+                        }else{
+                            
+                            res.status(200).json({ status: 'login correcto', data: { 'conductor': conductor, 'token': token } });
+                        }
+                    });
 
                 } else {
                     res.status(400).json({status: "login incorrecto", data:"contraseña incorrecta"})
