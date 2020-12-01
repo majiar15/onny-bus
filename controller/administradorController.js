@@ -4,22 +4,22 @@ exports.register = function(req, res) {
     const { cc, password, nombres, apellidos, email, confirmpassword } = req.body
     if (cc && nombres && apellidos && email && password && confirmpassword) {
         if (password === confirmpassword) {
-            let rol = 'empleado';
-            administradorModel.create({ cc, nombres, apellidos, email, password, rol, activo: true }, (err) => {
+            let administrador = administradorModel.createInstance(cc, nombres, apellidos, email, password,true);
+            administradorModel.add(administrador, (err) => {
                 if (err) {
                     console.log(err);
 
-                    res.render('./administrador/registerAdministrador', { error: "error al guardar el administrador",  type:"registro" })
+                    res.render('./administrador/registerAdministrador', { error: "error al guardar el administrador",  type:"registro" , rol:req.session.userType })
                 } else {
-                    res.render('./administrador/registerAdministrador', { message: "administrador creado correctamente" ,type:"registro"});
+                    res.render('./administrador/registerAdministrador', { message: "administrador creado correctamente" ,type:"registro", rol:req.session.userType});
                 };
             });
         } else {
-            res.render('./administrador/registerAdministrador', { error: "las contraseñas no coinciden" , type:"registro"});
+            res.render('./administrador/registerAdministrador', { error: "las contraseñas no coinciden" , type:"registro", rol:req.session.userType});
         }
 
     } else {
-        res.render('./administrador/registerAdministrador', { error: "error al guardar el administrador",type:"registro" })
+        res.render('./administrador/registerAdministrador', { error: "error al guardar el administrador",type:"registro", rol:req.session.userType })
     }
 
 }
@@ -88,7 +88,7 @@ exports.home = function (req,res) {
 }
 exports.updateGet = function(req,res){
     const {id} = req.params;
-    administradorModel.findOne({_id: id}, function(err, administrador){
+    administradorModel.findAdministradorById(id,function(err, administrador){
         if (!administrador) {
             res.render('./administrador/registerAdministrador', { type:"update", rol:req.session.userType});
         } else if (err) {
@@ -101,7 +101,7 @@ exports.updateGet = function(req,res){
 exports.update = function(req,res) {
     const { id, cc, nombres, apellidos, email, password } = req.body;
     if(cc, id , nombres, apellidos, email, password){
-        administradorModel.findOne({_id:id},"_id nombres apellidos email password",(err, administrador)=>{
+        administradorModel.findAdministradorById(id,(err, administrador)=>{
             if (!administrador) {
                 res.render('./administrador/registerAdministrador', { type:"update", rol:req.session.userType});
             } else if (err) {
@@ -133,7 +133,7 @@ exports.remove = function(req,res) {
     const id = req.params.id;
     console.log(id);
     if(id){
-        administradorModel.update({ _id: id },{activo : false},(err,administrador)=>{
+        administradorModel.removeByID(id,(err,administrador)=>{
      
             if (!administrador) {
                 res.redirect('/administrador/page/1');

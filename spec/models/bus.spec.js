@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const { db } = require('../../model/bus');
-let busModel = require('../../model/bus');
 
+let busModel = require('../../model/bus');
+let db = mongoose.connection;
 
 
 describe("Testing bus", () => {

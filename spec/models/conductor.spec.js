@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 let conductorModel = require('../../model/conductor');
-let db = mongoose.connection;
+
 
 
 describe("Testing conductores", () => {
     beforeAll(function (done) {
         let mongoDb = 'mongodb://localhost/testdb';
         mongoose.connect(mongoDb, { useNewUrlParser: true, useUnifiedTopology: true });
+        let db = mongoose.connection;
         db.on('error', console.error.bind(console, "error al conectarse a la db"));
         db.once('open', function () {
             console.log("conectados a base de datos");
@@ -20,10 +21,7 @@ describe("Testing conductores", () => {
             done();
         });
     });
-    afterAll(function (done) {
-        db.close();
-        done();
-    })
+
 
 
 
