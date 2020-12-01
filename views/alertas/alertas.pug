@@ -8,7 +8,7 @@ block main
         // quiero cargar las cosas aqui
         h1.mt-4 Alertas
         #container-alert.row
-          if alertas
+          if contextAlertas.alertas
             each alerta in contextAlertas.alertas  
               .col-ms-6.col-md-6.col-lg-6
                 if alerta.tipo == 'robo'
