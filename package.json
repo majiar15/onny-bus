@@ -5,7 +5,8 @@
     "main": "app.js",
     "scripts": {
         "start": "node app.js",
-        "devstart": "nodemon app.js"
+        "devstart": "nodemon app.js",
+        "test": "jasmine"
     },
     "author": "",
     "license": "ISC",
@@ -23,6 +24,7 @@
         "socket.io": "^2.3.0"
     },
     "devDependencies": {
+        "jasmine": "^3.5.0",
         "nodemon": "^2.0.4"
     }
 }

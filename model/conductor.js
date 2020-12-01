@@ -22,4 +22,25 @@ conductorSchema.pre('save', function(next) {
     next();
 });
 
+conductorSchema.statics.add = function(conductor,cb) {
+    this.create(conductor,cb);
+}
+conductorSchema.statics.createInstance = function(cc, nombres, apellidos, email, password, activo, latitud, longitud ) {
+    return new this({
+        cc: cc,
+        nombres: nombres,
+        apellidos: apellidos,
+        email: email,
+        password: password,
+        activo, activo,
+        latitud: latitud,
+        longitud:longitud
+    });
+}
+conductorSchema.statics.findConductorById = function (id,cb) {
+    return this.findOne({_id:id},cb);
+}
+conductorSchema.statics.removeByID = function(id,cb) {
+    return this.updateOne({_id:id},{activo:false},cb);
+}
 module.exports = mongoose.model('conductor', conductorSchema);

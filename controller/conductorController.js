@@ -1,5 +1,6 @@
 const conductorModel = require('../model/conductor');
 const bcrypt = require('bcrypt');
+const conductor = require('../model/conductor');
 
 exports.register = function(req, res) {
     if (req.body.cc && req.body.nombres && req.body.apellidos && req.body.email && req.body.password && req.body.confirmpassword) {
@@ -10,13 +11,14 @@ exports.register = function(req, res) {
                 email = req.body.email,
                 password = req.body.password;
                 activo = true;
-            conductorModel.create({ cc, nombres, apellidos, email, password, latitud: 10.882828369488793 ,longitud: -74.76955550729454,activo }, (err, newUser) => {
-                if (err) {
-                    res.render('./conductor/registroConductores', {error: 'ya hay alguien con la misma cedula', type: "registro", rol:req.session.userType});
-                } else {
-                    res.render('./conductor/registroConductores', {message: 'conductor creado correctamente', type: "registro", rol:req.session.userType});
-                };
-            });
+                let conductor = conductorModel.createInstance(cc, nombres, apellidos, email, password,activo, 10.882828369488793,-74.76955550729454);
+                conductorModel.add(conductor,(err, newUser) => {
+                    if (err) {
+                        res.render('./conductor/registroConductores', {error: 'ya hay alguien con la misma cedula', type: "registro", rol:req.session.userType});
+                    } else {
+                        res.render('./conductor/registroConductores', {message: 'conductor creado correctamente', type: "registro", rol:req.session.userType});
+                    };
+                });
         } else {
             res.render('./conductor/registroConductores', {error: 'las contraseñas no coincidenr', type: "registro", rol:req.session.userType});
         }
@@ -30,7 +32,7 @@ exports.register = function(req, res) {
 exports.update = function(req, res) {
     const { id, cc, nombres, apellidos, email, password } = req.body;; 
     if(cc, id , nombres, apellidos, email, password){
-        conductorModel.findOne({_id:id},(err, conductor)=>{
+        conductorModel.findConductorById(id,(err, conductor)=>{
             if (!conductor) {
                 res.render('./conductor/registroConductores', { type:"update", rol:req.session.userType});
             } else if (err) {
@@ -56,8 +58,8 @@ exports.update = function(req, res) {
     }
 }
 exports.updateGet = function(req,res) {
-    const {id} = req.params;
-    conductorModel.findOne({_id: id}, function(err, conductor){
+    const {id} = req.params;removeByID
+    conductorModel.findConductorById(id,function(err, conductor){
         if (!conductor) {
             res.render('./conductor/registroConductores', { type:"update", rol:req.session.userType});
         } else if (err) {
@@ -103,7 +105,7 @@ exports.remove = function(req,res) {
     const id = req.params.id;
     console.log(id);
     if(id){
-        conductorModel.update({ _id: id },{activo : false},(err,conductor)=>{
+        conductorModel.removeByID(id,(err,conductor)=>{
             console.log(conductor);
             console.log(err);
             if (!conductor) {
