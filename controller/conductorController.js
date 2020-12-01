@@ -58,7 +58,7 @@ exports.update = function(req, res) {
     }
 }
 exports.updateGet = function(req,res) {
-    const {id} = req.params;removeByID
+    const {id} = req.params;
     conductorModel.findConductorById(id,function(err, conductor){
         if (!conductor) {
             res.render('./conductor/registroConductores', { type:"update", rol:req.session.userType});

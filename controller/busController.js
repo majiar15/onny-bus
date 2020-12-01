@@ -4,14 +4,16 @@ exports.register = function(req, res) {
     let {placa , nSerie} = req.body;
     if (placa && nSerie) {      
         placa = placa.substring(0,3) + '-'+ placa.substring(3,6);
-        busModel.create({ placa, nSerie, activo:true}, (err, newBus) => {
-                if (err) {
-                    console.log(err);
-                    res.render('./buses/registroBuses', {error: 'la placa debe tener 6 caracteres y el numero de serie 3 digitos', type: "registro", rol:req.session.userType});
-                } else {
-                    res.render('./buses/registroBuses', {message: 'conductor creado correctamente', type: "registro", rol:req.session.userType});
-                };
-            });
+        let bus = busModel.createInstance(placa, nSerie);
+        busModel.add(bus,(err, newBus) => {
+            if (err) {
+                console.log(err);
+                res.render('./buses/registroBuses', {error: 'la placa debe tener 6 caracteres y el numero de serie 3 digitos', type: "registro", rol:req.session.userType});
+            } else {
+                res.render('./buses/registroBuses', {message: 'conductor creado correctamente', type: "registro", rol:req.session.userType});
+            };
+        });
+        // busModel.create({ placa, nSerie, activo:true}, 
     } else {
         res.render('./buses/registroBuses', {error: 'no se enviaron los parametros necesarios(placa, numero de serie) o no son numeros ', type: "registro", rol:req.session.userType});
     }
@@ -21,7 +23,7 @@ exports.register = function(req, res) {
 exports.update = function(req, res) {
     let { placa, nSerie, id} = req.body; 
     if( placa && nSerie){
-        busModel.findOne({_id: id},(err, bus)=>{
+        busModel.findBusById(id, (err, bus)=>{
             if (!bus) {
                 res.render('./buses/registroBuses', { type:"update", rol:req.session.userType});
             } else if (err) {
@@ -47,7 +49,7 @@ exports.update = function(req, res) {
 }
 exports.updateGet = function(req,res) {
     const {id} = req.params;
-    busModel.findOne({_id: id}, function(err, bus){
+    busModel.findBusById(id, function(err, bus){
         if (!bus) {
             res.render('./buses/registroBuses', { type:"update", rol:req.session.userType});
         } else if (err) {
@@ -91,7 +93,7 @@ exports.home = function (req,res) {
 exports.remove = function(req,res) {
     const id = req.params.id;
     if(id){
-        busModel.update({ _id: id },{activo : false},(err,bus)=>{
+        busModel.removeByID(id, (err,bus)=>{
             if (!bus) {
                 res.redirect('/bus/page/1');
             } else if (err) {
